@@ -19,5 +19,20 @@ namespace DESX_Model
             61, 53, 45, 37, 29, 21, 13, 5, 63, 55, 47, 39, 31, 23, 15, 7
         };
 
+        /// <summary>
+        /// Method that Permute table given as a param with InitialPermutation
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static byte[] Permute(byte[] table)
+        {
+            byte[] permutedTable=new byte[InitialPermutation.Length];
+            for (int i = 0; i < InitialPermutation.Length; i++)
+            {
+                permutedTable[i] = table[InitialPermutation[i]];
+            }
+            //TODO: Issue: #3 Test Permute Method
+            return permutedTable;
+        }
     }
 }
