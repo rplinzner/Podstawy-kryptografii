@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,19 +21,23 @@ namespace DESX_Model
         };
 
         /// <summary>
-        /// Method that Permute table given as a param with InitialPermutation
+        /// Method that Permute array given as a param with permutation
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public static byte[] Permute(byte[] table)
+        public static byte[] Permute(byte[] permutation, byte[] byteArray)
         {
-            byte[] permutedTable=new byte[InitialPermutation.Length];
-            for (int i = 0; i < InitialPermutation.Length; i++)
+            BitArray bits=new BitArray(byteArray);
+
+            BitArray permutedBitArray = new BitArray(bits.Length);
+            for (int i = 0; i < permutation.Length; i++)
             {
-                permutedTable[i] = table[InitialPermutation[i]];
+                permutedBitArray[i] = bits[permutation[i]];
             }
+            byte[] permutatedByteArray = new byte[(permutedBitArray.Length - 1) / 8 + 1];
+            permutedBitArray.CopyTo(permutatedByteArray, 0);
             //TODO: Issue: #3 Test Permute Method
-            return permutedTable;
+            return permutatedByteArray;
         }
     }
 }
