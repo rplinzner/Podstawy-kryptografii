@@ -29,11 +29,13 @@ namespace DESX_ModelTests
         [TestMethod]
         public void TestStringToBitArrayBlocksMethod()
         {
-            string key = "00110001001100100011001100110100001101010011011000110111001110000011100100111000001101110011011000110111001110000011100100111000";  
-            Encryptor enc = new Encryptor(key);
-            Decryptor dec=new Decryptor(key);
-            Console.WriteLine(dec.Decrypt(enc.Encrypt("PierdoloneKrypto")));
-            
+            string key = "0011000100110010001100110011010000110101001101100011011100111000";
+            string key1 = "1011000100110010101100110011010000111101101101101001011100111000";
+            string key2 = "0101000100011010001100110101010000110101001101101011011100111000";
+            Encryptor enc = new Encryptor(key, key1, key2);
+            Decryptor dec = new Decryptor(key, key2, key1);
+            Console.WriteLine(dec.Decrypt(enc.Encrypt(Encoding.UTF32.GetString(Encoding.UTF32.GetBytes("pojebane to jest")),Encoding.UTF32)));
+
         }
     }
 }

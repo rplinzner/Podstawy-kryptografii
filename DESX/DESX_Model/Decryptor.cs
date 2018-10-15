@@ -12,13 +12,16 @@ namespace DESX_Model
         private byte _blockSize = 8; //One block is 64bits=8bytes
         public List<BitArray> SubKeys { get; set; }
         public BitArray Key { get; set; }
+        public BitArray KeyXor1 { get; set; }
+        public BitArray KeyXor2 { get; set; }
 
 
-
-        public Decryptor(string key)
+        public Decryptor(string key, string keyXor1, string keyXor2)
         {
             SubKeys = new List<BitArray>();
             Key = DesHelper.BinaryStringTo64BitArray(key);
+            KeyXor1 = DesHelper.BinaryStringTo64BitArray(keyXor1);
+            KeyXor2 = DesHelper.BinaryStringTo64BitArray(keyXor2);
             Get16SubKeysFromKey();
         }
 
@@ -50,8 +53,13 @@ namespace DESX_Model
         {
             string encrypted = null;
             List<BitArray> blocks = DesHelper.BinaryStringToBitArrayBlocks(text);
+            List<BitArray> xoredBlocks = new List<BitArray>();
             List<BitArray> permutatedBlocks = new List<BitArray>();
             foreach (BitArray bitArray in blocks)
+            {
+                xoredBlocks.Add(bitArray.Xor(KeyXor1));
+            }
+            foreach (BitArray bitArray in xoredBlocks)
             {
                 permutatedBlocks.Add(Permutations.Permute(Data.InitialPermutationTable1, bitArray));
             }
@@ -69,7 +77,8 @@ namespace DESX_Model
 
                 BitArray sum = leftArray.Add(rightArray);
                 BitArray final = Permutations.Permute(Data.InitialPermutationTable2, sum);
-                encrypted += final.TToString();
+                BitArray xoredFinal = final.Xor(KeyXor2);
+                encrypted += xoredFinal.TToString();
             }
 
             return encrypted;
