@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesHelper.cs" />
     <Compile Include="Encryptor.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="InputHandler.cs" />

@@ -31,7 +31,7 @@ namespace DESX_ModelTests
                 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
                 61, 62, 63
             };
-            byte[] byteArray = new byte[] {1, 2, 3, 4, 5, 6, 7, 8};
+            byte[] byteArray = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
             //byte Array in bits:
             // 10000000 - 1
             // 01000000 - 2
@@ -42,7 +42,7 @@ namespace DESX_ModelTests
             // 11100000 - 7
             // 00010000 - 8
 
-            byte[] afterPermutation=Permutations.Permute(permutation, byteArray);
+            byte[] afterPermutation = Permutations.Permute(permutation, byteArray);
             //after permutation should be:
             // 01000000 - 2
             // 00100000 - 4
@@ -61,5 +61,57 @@ namespace DESX_ModelTests
             }
 
         }
+        [TestMethod]
+        public void TestStringToBitArrayBlocksMethod()
+        {
+            string a = "dupa";
+            var list = DesHelper.StringToBitArrayBlocks(a);
+            for (int i = 0; i < list.Count; i++)
+            {
+
+                foreach (bool b in list[i])
+                {
+                    
+                    Console.Write(b ? "1" : "0");
+                    
+                }
+                Console.WriteLine("");
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+
+                list[i] = DesHelper.ShiftLeft(list[i]);
+                foreach (bool b in list[i])
+                {
+                    Console.Write(b ? "1" : "0");
+
+                }
+                Console.WriteLine("");
+            }
+            for (int i = 0; i < list.Count; i++)
+            {
+
+                list[i] = DesHelper.ShiftLeft(list[i]);
+                foreach (bool b in list[i])
+                {
+                    Console.Write(b ? "1" : "0");
+
+                }
+                Console.WriteLine("");
+            }
+            for (int i = 0; i < list.Count; i++)
+            {
+
+                list[i] = DesHelper.ShiftLeft(list[i]);
+                foreach (bool b in list[i])
+                {
+                    Console.Write(b ? "1" : "0");
+
+                }
+                Console.WriteLine("");
+            }
+        }
     }
 }
+

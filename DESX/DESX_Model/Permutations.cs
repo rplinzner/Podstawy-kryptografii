@@ -23,21 +23,22 @@ namespace DESX_Model
         /// <summary>
         /// Method that Permute array given as a param with permutation
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="permutation"></param>
+        /// <param name="byteArray"></param>
         /// <returns></returns>
-        public static byte[] Permute(byte[] permutation, byte[] byteArray)
+        public static BitArray Permute(byte[] permutation, BitArray byteArray)
         {
             BitArray bits=new BitArray(byteArray);
 
-            BitArray permutedBitArray = new BitArray(bits.Length);
+            BitArray permutedBitArray = new BitArray(permutation.Length);
             for (int i = 0; i < permutation.Length; i++)
             {
                 permutedBitArray[i] = bits[permutation[i]];
             }
-            byte[] permutatedByteArray = new byte[(permutedBitArray.Length - 1) / 8 + 1];
-            permutedBitArray.CopyTo(permutatedByteArray, 0);
+           // byte[] permutatedByteArray = new byte[(permutedBitArray.Length - 1) / 8 + 1];
+           // permutedBitArray.CopyTo(permutatedByteArray, 0);
             //TODO: Issue: #3 Test Permute Method
-            return permutatedByteArray;
+            return permutedBitArray;
         }
     }
 }
