@@ -19,17 +19,6 @@ namespace DESX_Model
             _plainTextInBytes = encoding.GetBytes(plainText);
         }
 
-        public byte[] GetBlocksAfterInitialPermutation()
-        {
-            int i = 0;
-            byte[] temp = new byte[_plainTextInBytes.Length];
-            foreach (var plainTextInByte in PlainTextInBytes)
-            {
-                
-            }
-            return null;
-        }
-
         public byte[] PlainTextInBytes => _plainTextInBytes;
     }
 }
