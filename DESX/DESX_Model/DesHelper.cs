@@ -32,14 +32,14 @@ namespace DESX_Model
         }
         public static List<BitArray> BinaryStringToBitArrayBlocks(string text)
         {
-          
+
 
             int numberOfBits = text.Length;
             int numberOfBlocks = (int)(numberOfBits / 64.0);
             List<BitArray> blocks = new List<BitArray>(numberOfBlocks);
             for (int i = 0; i < numberOfBlocks; i++)
             {
-                blocks.Add(new BitArray(text.Skip(i*64).Take(64).Select(t => t != '0').ToArray()));
+                blocks.Add(new BitArray(text.Skip(i * 64).Take(64).Select(t => t != '0').ToArray()));
             }
 
             return blocks;
@@ -48,7 +48,7 @@ namespace DESX_Model
         public static byte[] FillTo64Bits(byte[] byteText)
         {
 
-            byte[] filled = new byte[byteText.Length + byteText.Length % 8];
+            byte[] filled = new byte[byteText.Length + 8 - byteText.Length % 8];
             for (int i = 0; i < byteText.Length; i++)
             {
                 filled[i] = byteText[i];

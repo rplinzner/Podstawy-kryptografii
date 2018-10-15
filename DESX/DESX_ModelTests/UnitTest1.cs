@@ -34,7 +34,7 @@ namespace DESX_ModelTests
             string key2 = "0101000100011010001100110101010000110101001101101011011100111000";
             Encryptor enc = new Encryptor(key, key1, key2);
             Decryptor dec = new Decryptor(key, key2, key1);
-            Console.WriteLine(dec.Decrypt(enc.Encrypt(Encoding.UTF32.GetString(Encoding.UTF32.GetBytes("pojebane to jest")),Encoding.UTF32)));
+            Console.WriteLine(dec.Decrypt(enc.Encrypt("1234567898543", Encoding.UTF8)));
 
         }
     }
