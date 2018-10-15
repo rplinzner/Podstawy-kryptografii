@@ -11,6 +11,7 @@ namespace DESX_Model
     {
         public static List<BitArray> StringToBitArrayBlocks(string text)
         {
+
             byte[] byteText;
             byteText = Encoding.UTF8.GetBytes(text);
 
@@ -23,6 +24,22 @@ namespace DESX_Model
             for (int i = 0; i < numberOfBlocks; i++)
             {
                 blocks.Add(new BitArray(byteText.ToList().GetRange(i * 8, 8).ToArray()));
+            }
+
+            return blocks;
+
+
+        }
+        public static List<BitArray> BinaryStringToBitArrayBlocks(string text)
+        {
+          
+
+            int numberOfBits = text.Length;
+            int numberOfBlocks = (int)(numberOfBits / 64.0);
+            List<BitArray> blocks = new List<BitArray>(numberOfBlocks);
+            for (int i = 0; i < numberOfBlocks; i++)
+            {
+                blocks.Add(new BitArray(text.Skip(i*64).Take(64).Select(t => t != '0').ToArray()));
             }
 
             return blocks;
@@ -40,7 +57,7 @@ namespace DESX_Model
             {
                 filled[i] = 0;
             }
-            
+
             return filled;
         }
 
@@ -49,18 +66,32 @@ namespace DESX_Model
             int size = orignal.Length / 2;
             leftArray = new BitArray(size);
             rightArray = new BitArray(size);
-           
+
             for (int i = 0; i < size; i++)
             {
                 leftArray[i] = orignal[i];
-                rightArray[i + size] = orignal[i + size];
+                rightArray[i] = orignal[i + size];
             }
-            
+
         }
+
+        public static void ConnectTwoArraysIntoOne(BitArray leftArray, BitArray rightArray, out BitArray connectedArray)
+        {
+            connectedArray = new BitArray(leftArray.Length + rightArray.Length);
+            for (int i = 0; i < leftArray.Length; i++)
+            {
+                connectedArray[i] = leftArray[i];
+            }
+            for (int i = 0; i < rightArray.Length; i++)
+            {
+                connectedArray[i + leftArray.Length] = leftArray[i];
+            }
+        }
+
 
         public static BitArray ShiftLeft(BitArray array)
         {
-            BitArray shiftedArray=new BitArray(array.Count);
+            BitArray shiftedArray = new BitArray(array.Count);
             for (int i = 1; i < array.Count; i++)
             {
                 shiftedArray[i - 1] = array[i];
@@ -68,6 +99,16 @@ namespace DESX_Model
 
             shiftedArray[array.Count - 1] = array[0];
             return shiftedArray;
+        }
+
+        public static BitArray BinaryStringTo64BitArray(string text)
+        {
+            BitArray binaryArray = new BitArray(64);
+            for (int i = 0; i < 64; i++)
+            {
+                binaryArray[i] = text[i] != '0';
+            }
+            return new BitArray(binaryArray);
         }
     }
 }

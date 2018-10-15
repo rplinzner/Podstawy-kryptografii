@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitArrayExtension.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="Decryptor.cs" />
     <Compile Include="DesHelper.cs" />
     <Compile Include="Encryptor.cs" />
     <Compile Include="Enums.cs" />

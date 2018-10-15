@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DESX_Model
 {
-    public class Encryptor
+    public class Decryptor
     {
         private byte _blockSize = 8; //One block is 64bits=8bytes
         public List<BitArray> SubKeys { get; set; }
@@ -16,7 +15,7 @@ namespace DESX_Model
 
 
 
-        public Encryptor(string key)
+        public Decryptor(string key)
         {
             SubKeys = new List<BitArray>();
             Key = DesHelper.BinaryStringTo64BitArray(key);
@@ -47,10 +46,10 @@ namespace DESX_Model
 
         }
 
-        public string Encrypt(string text)
+        public string Decrypt(string text)
         {
-            string encrypted=null;
-            List<BitArray> blocks = DesHelper.StringToBitArrayBlocks(text);
+            string encrypted = null;
+            List<BitArray> blocks = DesHelper.BinaryStringToBitArrayBlocks(text);
             List<BitArray> permutatedBlocks = new List<BitArray>();
             foreach (BitArray bitArray in blocks)
             {
@@ -61,7 +60,7 @@ namespace DESX_Model
             {
                 DesHelper.DivideToTwoArrays(permutatedBlock, out BitArray leftArray, out BitArray rightArray);
 
-                for (int i = 0; i < 16; i++)
+                for (int i = 15; i >= 0; i--)
                 {
                     BitArray temp = leftArray;
                     leftArray = rightArray;
@@ -70,10 +69,7 @@ namespace DESX_Model
 
                 BitArray sum = leftArray.Add(rightArray);
                 BitArray final = Permutations.Permute(Data.InitialPermutationTable2, sum);
-                for (int i = 0; i < final.Length; i++)
-                {
-                    encrypted += final[i] ? "1" : "0";
-                }
+                encrypted += final.TToString();
             }
 
             return encrypted;
@@ -97,7 +93,7 @@ namespace DESX_Model
         private BitArray FunctionSBox(BitArray array)
         {
 
-            BitArray sBoxedArray=new BitArray(32);
+            BitArray sBoxedArray = new BitArray(32);
 
             for (int i = 0; i < 8; i++)
             {
