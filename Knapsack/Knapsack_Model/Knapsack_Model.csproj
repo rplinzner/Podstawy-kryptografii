@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultValues.cs" />
+    <Compile Include="Encoding.cs" />
     <Compile Include="IntExtensionMethods.cs" />
     <Compile Include="Permutation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

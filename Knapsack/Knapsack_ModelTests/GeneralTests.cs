@@ -25,6 +25,14 @@ namespace Knapsack_ModelTests
                 Console.Out.WriteLine(i);
             }
 
+            Console.Out.WriteLine("encoding");
+            Encoding enc = new Encoding(publicKey.GetPublicKey());
+            var temp = enc.Encode("luls");
+            foreach (var i in temp)
+            {
+                Console.Out.WriteLine(i);
+            }
+            Assert.AreEqual(temp[1], 3736);
 
         }
     }
