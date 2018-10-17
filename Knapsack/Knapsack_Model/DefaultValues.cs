@@ -41,10 +41,10 @@ namespace Knapsack_Model
         }
 
         /// <summary>
-        /// Permutation table, that has to contain permutation for 8 bits, as we're using UTF-8
+        /// PermutationTable table, that has to contain permutation for 8 bits, as we're using UTF-8
         /// </summary>
         /// <returns>8-bit permutation table</returns>
-        public static byte[] Permutation()
+        public static byte[] PermutationTable()
         {
             byte[] temp = {5, 2, 8, 1, 7, 4, 6, 3};
             return temp;

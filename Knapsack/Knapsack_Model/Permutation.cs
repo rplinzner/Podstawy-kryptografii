@@ -9,7 +9,6 @@ namespace Knapsack_Model
 {
     public static class Permutation
     {
-        //TODO: Check if this method is suitable for our needs
         /// <summary>
         /// Method that Permute array given as a param with permutation
         /// </summary>
@@ -26,6 +25,18 @@ namespace Knapsack_Model
             }
             
             return permutedInts;
+        }
+
+        public static BitArray PermuteBitArray(byte[] permutation, BitArray tableToPermute)
+        {
+            BitArray permutedBits = new BitArray(tableToPermute.Length);
+
+            for (int i = 0; i < permutation.Length; i++)
+            {
+                permutedBits[i] = tableToPermute[permutation[i] - 1];
+            }
+
+            return permutedBits;
         }
     }
 }

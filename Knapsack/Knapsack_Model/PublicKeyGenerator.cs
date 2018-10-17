@@ -25,7 +25,7 @@ namespace Knapsack_Model
         /// <param name="privateKey">Private Key</param>
         /// <param name="modulus">Modulus</param>
         /// <param name="multiplier">Multiplier</param>
-        /// <param name="permutation">Permutation used to permute initially generated key</param>
+        /// <param name="permutation">PermutationTable used to permute initially generated key</param>
         public PublicKeyGenerator(int[] privateKey, int modulus, int multiplier, byte[] permutation)
         {
             _privateKey = privateKey;
@@ -60,7 +60,7 @@ namespace Knapsack_Model
         public int[] GetPublicKey()
         {
             var publicKey = Permutation.Permute(_permutation, GeneratePublicKey());
-            return publicKey;
+            return GeneratePublicKey();
         }
 
     }

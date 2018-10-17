@@ -3,6 +3,6 @@
     public interface ICrypto
     {
         string Encrypt(string message);
-        //string Decrypt(string message);
+        string Decrypt(string message);
     }
 }

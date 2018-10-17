@@ -11,7 +11,7 @@ namespace Knapsack_ModelTests
         public void GeneratingPublicKeyTestPermute()
         {
             var publicKey = new PublicKeyGenerator(DefaultValues.PrivateKey(), DefaultValues.Modulus(),
-                DefaultValues.Multiplier(), DefaultValues.Permutation());
+                DefaultValues.Multiplier(), DefaultValues.PermutationTable());
            
             foreach (var i in publicKey.GeneratePublicKey())
             {
@@ -26,14 +26,18 @@ namespace Knapsack_ModelTests
             }
 
             Console.Out.WriteLine("encoding");
-            Encryption enc = new Encryption(publicKey.GetPublicKey());
-            var temp = enc.Encrypt("ala ma kota a kot na ale");
-            Console.Out.WriteLine(temp);
-            var temp1 = enc.Decrypt(temp);
-            foreach (var i in temp1)
-            {
-                Console.Out.WriteLine(i);
-            }
+            Encryption enc = new Encryption();
+            enc.PublicKey = publicKey.GetPublicKey();
+            enc.PrivateKey = DefaultValues.PrivateKey();
+            enc.PermutationTable = DefaultValues.PermutationTable();
+            enc.Modulus = DefaultValues.Modulus();
+            enc.Multiplier = DefaultValues.Multiplier();
+            var encryptedMessage = enc.Encrypt("ala ma kota a kot na ale");
+            Console.Out.WriteLine(encryptedMessage);
+            var decrypted = enc.Decrypt(encryptedMessage);
+            Console.Out.WriteLine(decrypted);
+
+
 
         }
     }
