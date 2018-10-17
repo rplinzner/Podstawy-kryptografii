@@ -34,7 +34,7 @@ namespace Knapsack_Model
         /// The multiplier should have no factors in common with the modulus so prime numbers works best.
         /// Also should be greater than Modulus/2 and lower then Modulus
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Multiplier</returns>
         public static int Multiplier()
         {
             return 659;

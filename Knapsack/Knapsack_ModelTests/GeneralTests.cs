@@ -26,8 +26,8 @@ namespace Knapsack_ModelTests
             }
 
             Console.Out.WriteLine("encoding");
-            Encoding enc = new Encoding(publicKey.GetPublicKey());
-            var temp = enc.Encode("luls");
+            Encryption enc = new Encryption(publicKey.GetPublicKey());
+            var temp = enc.Encrypt("luls");
             foreach (var i in temp)
             {
                 Console.Out.WriteLine(i);

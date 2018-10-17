@@ -7,23 +7,27 @@ using System.Threading.Tasks;
 
 namespace Knapsack_Model
 {
-    public class Encoding
+    public class Encryption
     {
-        private int[] _publicKey;
+        private readonly int[] _publicKey;
 
         #region constructor
-        
-        public Encoding() //TODO Add field initialization
-        {
-            
-        }
-#endregion
-
-        public Encoding(int[] publicKey)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="publicKey"></param>
+        public Encryption(int[] publicKey)
         {
             _publicKey = publicKey;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Method that encodes message using public key. Used by anyone.
+        /// </summary>
+        /// <param name="message">Message to encrypt</param>
+        /// <returns></returns>
         public int[] Encode(string message)
         {
             var charTab = message.ToCharArray();
