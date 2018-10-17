@@ -27,12 +27,13 @@ namespace Knapsack_ModelTests
 
             Console.Out.WriteLine("encoding");
             Encryption enc = new Encryption(publicKey.GetPublicKey());
-            var temp = enc.Encrypt("luls");
-            foreach (var i in temp)
+            var temp = enc.Encrypt("ala ma kota a kot na ale");
+            Console.Out.WriteLine(temp);
+            var temp1 = enc.Decrypt(temp);
+            foreach (var i in temp1)
             {
                 Console.Out.WriteLine(i);
             }
-            Assert.AreEqual(temp[1], 3736);
 
         }
     }

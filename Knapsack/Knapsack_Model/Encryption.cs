@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Knapsack_Model
 {
-    public class Encryption
+    public class Encryption : ICrypto
     {
+        //TODO Move fields to methods
         private readonly int[] _publicKey;
 
         #region constructor
@@ -28,7 +29,7 @@ namespace Knapsack_Model
         /// </summary>
         /// <param name="message">Message to encrypt</param>
         /// <returns></returns>
-        public int[] Encode(string message)
+        public string Encrypt(string message)
         {
             var charTab = message.ToCharArray();
             int[] encodedChars = new int[charTab.Length];
@@ -36,8 +37,22 @@ namespace Knapsack_Model
             {
                 encodedChars[i] = GetCodedChar(charTab[i]); 
             }
-            return encodedChars;
+
+            return ConvertIntTableToString(encodedChars);
         }
+        public int[] Decrypt(string message)
+        {
+            //TODO Change to separate method
+            string[] CharsEncrypted = message.Split('.');
+            int[] CharsEncryptedInt = new int[CharsEncrypted.Length];
+            for (int i = 0; i < CharsEncrypted.Length; i++)
+            {
+                CharsEncryptedInt[i] = Int32.Parse(CharsEncrypted[i]);
+            }
+
+            return CharsEncryptedInt;
+        }
+        #region helper methods
         //TODO Add summary + comments
         private int GetCodedChar(char c)
         {
@@ -55,5 +70,22 @@ namespace Knapsack_Model
 
             return temp;
         }
+
+        
+        private string ConvertIntTableToString(int[] IntTable)
+        {
+            StringBuilder str = new StringBuilder();
+            foreach (var i in IntTable)
+            {
+                str.Append(i);
+                str.Append('.');
+            }
+
+            str.Length--; //deletes last separator
+
+            return str.ToString();
+        }
+#endregion
+        
     }
 }
