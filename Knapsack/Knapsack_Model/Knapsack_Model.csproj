@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="DefaultValues.cs" />
     <Compile Include="Encryption.cs" />
+    <Compile Include="EncryptionHelper.cs" />
     <Compile Include="ICrypto.cs" />
     <Compile Include="IntExtensionMethods.cs" />
     <Compile Include="Permutation.cs" />

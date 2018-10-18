@@ -44,56 +44,58 @@ namespace Knapsack_Model
             {
                 encodedChars[i] = GetCodedChar(charTab[i]); 
             }
-
-            return ConvertIntTableToString(encodedChars);
+            return EncryptionHelper.ConvertIntTableToString(encodedChars);
         }
         public string Decrypt(string message)
         {
+            #region Check if properties are present
             if(PermutationTable == null) throw new NullReferenceException("PermutationTable table needs to be set for this operation");
             if(Multiplier == 0) throw new NullReferenceException("Multiplier needs to be set for this operation");
             if(Modulus == 0) throw new NullReferenceException("Modulus needs to be set for this operation");
             if(PrivateKey == null) throw new NullReferenceException("Private Key needs to be set for this operation");
-            int multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)mod900
+#endregion
 
-            int[] CharsEncryptedInt = DecodeString(message); //convert numbers from string to int array
-            int[] DecodedEncryptedIntChars = new int[CharsEncryptedInt.Length];
-            
-            for (int i = 0; i < CharsEncryptedInt.Length; i++)
-            {
-                int intDecode = (CharsEncryptedInt[i] * multiplyFactor) % Modulus;
-                DecodedEncryptedIntChars[i] = intDecode;
-            }
-            int[] PrivateKeyCopy = new int[PrivateKey.Length];
-            Array.Copy(PrivateKey, PrivateKeyCopy, PrivateKey.Length);
-            Array.Reverse(PrivateKeyCopy);
-            //char[] DecodedChars = new char[DecodedEncryptedIntChars.Length];
+            int[] decodedInts = DecodeInts(message);
+            int[] privateKeyCopy = new int[PrivateKey.Length];
+            Array.Copy(PrivateKey, privateKeyCopy, PrivateKey.Length);
+            Array.Reverse(privateKeyCopy);
             string decodedMessage ="";
-            for (int i = 0; i < DecodedEncryptedIntChars.Length; i++)
+            foreach (var t in decodedInts)
             {
-                int rest = DecodedEncryptedIntChars[i];
-                BitArray charBitArray = new BitArray(8);
-                for (int j = 0; j < PrivateKeyCopy.Length; j++)
+                int rest = t;
+                var charBitArray = new BitArray(8);
+                for (int j = 0; j < privateKeyCopy.Length; j++)
                 {
-                    if (rest >= PrivateKeyCopy[j])
+                    if (rest >= privateKeyCopy[j])
                     {
                         charBitArray[j] = true;
-                        rest = rest - PrivateKeyCopy[j];
+                        rest = rest - privateKeyCopy[j];
                     }
                     else charBitArray[j] = false;
                 }
-
                 //BitArray permutedCharBitArray = Knapsack_Model.Permutation.PermuteBitArray(PermutationTable, charBitArray);
-                //var bycik = ConvertToByte(permutedCharBitArray);
-                var bycik = ConvertToByte(charBitArray);
-                decodedMessage += Encoding.UTF8.GetString(bycik);
+                //var SingleCharInByte = ConvertToByte(permutedCharBitArray);
+                var singleCharInByte = ConvertToByte(charBitArray);
+                decodedMessage += Encoding.UTF8.GetString(singleCharInByte);
             }
-
             return decodedMessage;
-
         }
         #region helper methods
+        //TODO Add summary + comments
+        private int[] DecodeInts(string message)
+        {
+            int multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)mod900
+            int[] charsEncryptedInt = EncryptionHelper.DecodeString(message); //convert numbers from string to int array
+            int[] decodedEncryptedIntChars = new int[charsEncryptedInt.Length];
 
-        byte[] ConvertToByte(BitArray bits)
+            for (int i = 0; i < charsEncryptedInt.Length; i++)
+            {
+                int intDecode = (charsEncryptedInt[i] * multiplyFactor) % Modulus;
+                decodedEncryptedIntChars[i] = intDecode;
+            }
+            return decodedEncryptedIntChars;
+        }
+        private byte[] ConvertToByte(BitArray bits)
         {
             if (bits.Count != 8)
             {
@@ -103,24 +105,6 @@ namespace Knapsack_Model
             bits.CopyTo(bytes, 0);
             return bytes;
         }
-
-#if DEBUG
-        public int[] DecodeString(string str)
-        #else
-        private int[] DecodeString(string str)
-#endif
-        {
-            string[] CharsEncrypted = str.Split('.');
-            int[] CharsdecodedInt = new int[CharsEncrypted.Length];
-            for (int i = 0; i < CharsEncrypted.Length; i++)
-            {
-                CharsdecodedInt[i] = Int32.Parse(CharsEncrypted[i]);
-            }
-
-            return CharsdecodedInt;
-        }
-
-        //TODO Add summary + comments
         private int GetCodedChar(char c)
         {
             int temp = 0;
@@ -134,24 +118,9 @@ namespace Knapsack_Model
             {
                 if (charBitArray[i]) temp += reversedPublicKey[i];
             }
-
             return temp;
         }
-
-        
-        private string ConvertIntTableToString(int[] IntTable)
-        {
-            StringBuilder str = new StringBuilder();
-            foreach (var i in IntTable)
-            {
-                str.Append(i);
-                str.Append('.');
-            }
-
-            str.Length--; //deletes last separator
-
-            return str.ToString();
-        }
+         
 #endregion
         
     }

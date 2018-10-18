@@ -34,6 +34,7 @@ namespace Knapsack_ModelTests
             enc.Multiplier = DefaultValues.Multiplier();
             var encryptedMessage = enc.Encrypt("ala ma kota a kot na ale");
             Console.Out.WriteLine(encryptedMessage);
+            Console.Out.WriteLine("Decoding");
             var decrypted = enc.Decrypt(encryptedMessage);
             Console.Out.WriteLine(decrypted);
 
