@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Knapsack_Model
 {   //TODO Do summaries
-    public static class EncryptionHelper
+    public static class StringHelper
     {
         public static int[] DecodeString(string str)
         {

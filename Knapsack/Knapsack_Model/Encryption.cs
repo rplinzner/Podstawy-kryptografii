@@ -44,7 +44,7 @@ namespace Knapsack_Model
             {
                 encodedChars[i] = GetCodedChar(charTab[i]); 
             }
-            return EncryptionHelper.ConvertIntTableToString(encodedChars);
+            return StringHelper.ConvertIntTableToString(encodedChars);
         }
         public string Decrypt(string message)
         {
@@ -85,7 +85,7 @@ namespace Knapsack_Model
         private int[] DecodeInts(string message)
         {
             int multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)mod900
-            int[] charsEncryptedInt = EncryptionHelper.DecodeString(message); //convert numbers from string to int array
+            int[] charsEncryptedInt = StringHelper.DecodeString(message); //convert numbers from string to int array
             int[] decodedEncryptedIntChars = new int[charsEncryptedInt.Length];
 
             for (int i = 0; i < charsEncryptedInt.Length; i++)
