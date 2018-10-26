@@ -5,6 +5,11 @@ namespace Knapsack_Model
 {   //TODO Do summaries
     public static class StringHelper
     {
+        /// <summary>
+        /// creates int array from string
+        /// </summary>
+        /// <param name="str">string with numerical values separated by dots</param>
+        /// <returns>int array</returns>
         public static int[] DecodeString(string str)
         {
             string[] charsEncrypted = str.Split('.');
@@ -16,7 +21,11 @@ namespace Knapsack_Model
 
             return charDecodedInt;
         }
-
+        /// <summary>
+        /// creates string from int array
+        /// </summary>
+        /// <param name="intTable">int array</param>
+        /// <returns>string with int values separated by dots</returns>
         public static string ConvertIntTableToString(int[] intTable)
         {
             StringBuilder str = new StringBuilder();

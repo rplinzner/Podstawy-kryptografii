@@ -12,8 +12,8 @@ namespace Knapsack_Model
         /// <summary>
         /// Method that Permute array given as a param with permutation
         /// </summary>
-        /// <param name="permutation"></param>
-        /// <param name="tableToPermute"></param>
+        /// <param name="permutation">permutation pattern</param>
+        /// <param name="tableToPermute">table to perform permutation on</param>
         /// <returns>permuted int array</returns>
         public static int[] Permute(byte[] permutation, int[] tableToPermute)
         {
@@ -26,7 +26,12 @@ namespace Knapsack_Model
             
             return permutedInts;
         }
-
+        /// <summary>
+        /// Method that Permute array given as a param with permutation 
+        /// </summary>
+        /// <param name="permutation">permutation pattern</param>
+        /// <param name="tableToPermute">table to perform permutation on</param>
+        /// <returns>permuted BitArray array</returns>
         public static BitArray PermuteBitArray(byte[] permutation, BitArray tableToPermute)
         {
             BitArray permutedBits = new BitArray(tableToPermute.Length);
