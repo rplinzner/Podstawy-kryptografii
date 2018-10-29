@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -119,5 +120,13 @@ namespace DESX_Model
                 { 2, 1, 14, 7, 4, 10, 8, 13, 15, 12, 9, 0, 3, 5, 6, 11}
             }
         };
+
+        public static string Generate64bitKey()
+        {
+            RandomNumberGenerator rnd = new RNGCryptoServiceProvider();
+            var key = new byte[8];
+            rnd.GetBytes(key);
+            return string.Concat(key.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
+        }
     }
 }

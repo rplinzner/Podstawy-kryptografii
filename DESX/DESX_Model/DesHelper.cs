@@ -9,11 +9,11 @@ namespace DESX_Model
 {
     public class DesHelper
     {
-        public static List<BitArray> StringToBitArrayBlocks(string text, Encoding encoding)
+        public static List<BitArray> StringToBitArrayBlocks(string text)
         {
 
             byte[] byteText;
-            byteText = encoding.GetBytes(text);
+            byteText = Encoding.UTF8.GetBytes(text);
 
             int numberOfBits = byteText.Length * 8;
             if (numberOfBits % 64 != 0)
