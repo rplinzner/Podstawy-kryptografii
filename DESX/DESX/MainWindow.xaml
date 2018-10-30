@@ -24,11 +24,7 @@
                 <StackPanel>
                     <Button Margin="10" Content="Encypt" Command="{Binding EncryptCommand}"/>
                     <TextBlock Text="Text for encyprtion" HorizontalAlignment="Center"/>
-                    <xctk:RichTextBox Margin="10" Height="100" Text="{Binding TextToEncrypt}">
-                        <xctk:RichTextBox.TextFormatter>
-                            <xctk:PlainTextFormatter/>
-                        </xctk:RichTextBox.TextFormatter>
-                    </xctk:RichTextBox>
+                    <TextBox Margin="10" Height="100" Text="{Binding TextToEncrypt}" TextWrapping="Wrap"/>
                 </StackPanel>
             </Border>
             <!--Decrypt-->
@@ -36,22 +32,13 @@
                 <StackPanel>
                     <Button Margin="10" Content="Decrypt" Command="{Binding DecryptCommand}"/>
                     <TextBlock Text="Encrypted Text" HorizontalAlignment="Center"/>
-                    <xctk:RichTextBox Margin="10" Height="100" Text="{Binding EncryptedText}">
-                        <xctk:RichTextBox.TextFormatter>
-                            <xctk:PlainTextFormatter/>
-                        </xctk:RichTextBox.TextFormatter>
-                    </xctk:RichTextBox>
+                    <TextBox Margin="10" Height="100" Text="{Binding EncryptedText}" TextWrapping="Wrap"/>
                 </StackPanel>
             </Border>
             <!--Decrypted data-->
             <Border Padding="10 50" Grid.Column="2" >
                 <StackPanel>
-                    <TextBlock Text="Text after decryption" HorizontalAlignment="Center"/>
-                    <xctk:RichTextBox IsReadOnly="True" Margin="10" Height="100" Text="{Binding TextAfterDecryption}">
-                        <xctk:RichTextBox.TextFormatter>
-                            <xctk:PlainTextFormatter/>
-                        </xctk:RichTextBox.TextFormatter>
-                    </xctk:RichTextBox>
+                    <TextBox IsReadOnly="True" Margin="10" Height="100" Text="{Binding TextAfterDecryption}" TextWrapping="Wrap"/>
                 </StackPanel>
             </Border>
 
@@ -68,31 +55,19 @@
                 <!--Key for Des-->
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Key for Des" HorizontalAlignment="Center"/>
-                    <xctk:RichTextBox Margin="10" Height="40" Text="{Binding KeyForDes}">
-                        <xctk:RichTextBox.TextFormatter>
-                            <xctk:PlainTextFormatter/>
-                        </xctk:RichTextBox.TextFormatter>
-                    </xctk:RichTextBox>
+                    <TextBox Margin="10" Height="40" Text="{Binding KeyForDes}" TextWrapping="Wrap"/>
                 </StackPanel>
 
                 <!--Key1 for DesX-->
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Key1 for DesX" HorizontalAlignment="Center"/>
-                    <xctk:RichTextBox Margin="10" Height="40" Text="{Binding Key1ForDesX}">
-                        <xctk:RichTextBox.TextFormatter>
-                            <xctk:PlainTextFormatter/>
-                        </xctk:RichTextBox.TextFormatter>
-                    </xctk:RichTextBox>
+                    <TextBox Margin="10" Height="40" Text="{Binding Key1ForDesX}" TextWrapping="Wrap"/>
                 </StackPanel>
 
                 <!--Key2 for DesX-->
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="Key2 for DesX" HorizontalAlignment="Center"/>
-                    <xctk:RichTextBox Margin="10" Height="40" Text="{Binding Key2ForDesX}">
-                        <xctk:RichTextBox.TextFormatter>
-                            <xctk:PlainTextFormatter/>
-                        </xctk:RichTextBox.TextFormatter>
-                    </xctk:RichTextBox>
+                    <TextBox Margin="10" Height="40" Text="{Binding Key2ForDesX}" TextWrapping="Wrap"/>
                 </StackPanel>
             </Grid>
         </Border>

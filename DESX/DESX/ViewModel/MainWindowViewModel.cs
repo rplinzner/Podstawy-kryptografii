@@ -127,7 +127,7 @@ namespace DESX.ViewModel
             else
             {
                 _encryptor = new Encryptor(KeyForDes, Key1ForDesX, Key2ForDesX);
-                EncryptedText = _encryptor.Encrypt(TextToEncrypt.Remove(TextToEncrypt.Length-2,2));
+                EncryptedText = _encryptor.Encrypt(TextToEncrypt);
             }
 
         }
