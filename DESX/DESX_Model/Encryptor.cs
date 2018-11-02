@@ -50,10 +50,10 @@ namespace DESX_Model
 
         }
 
-        public string Encrypt(string text,Encoding encoding)
+        public string Encrypt(string text)
         {
             string encrypted=null;
-            List<BitArray> blocks = DesHelper.StringToBitArrayBlocks(text,encoding);
+            List<BitArray> blocks = DesHelper.StringToBitArrayBlocks(text);
             List<BitArray> xoredBlocks= new List<BitArray>();
             List<BitArray> permutatedBlocks = new List<BitArray>();
             foreach (BitArray bitArray in blocks)

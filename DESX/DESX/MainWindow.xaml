@@ -4,9 +4,79 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DESX"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--Encrypt-->
+            <Border Padding="10" Grid.Column="0" >
+                <StackPanel>
+                    <Button Margin="10" Content="Encypt" Command="{Binding EncryptCommand}"/>
+                    <TextBlock Text="Text for encyprtion" HorizontalAlignment="Center"/>
+                    <TextBox Margin="10" Height="100" Text="{Binding TextToEncrypt}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+            <!--Decrypt-->
+            <Border Padding="10" Grid.Column="1">
+                <StackPanel>
+                    <Button Margin="10" Content="Decrypt" Command="{Binding DecryptCommand}"/>
+                    <TextBlock Text="Encrypted Text" HorizontalAlignment="Center"/>
+                    <TextBox Margin="10" Height="100" Text="{Binding EncryptedText}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+            <!--Decrypted data-->
+            <Border Padding="10 50" Grid.Column="2" >
+                <StackPanel>
+                    <TextBox IsReadOnly="True" Margin="10" Height="100" Text="{Binding TextAfterDecryption}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+
+        <!--Keys-->
+        <Border Padding="10" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--Key for Des-->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Key for Des" HorizontalAlignment="Center"/>
+                    <TextBox Margin="10" Height="40" Text="{Binding KeyForDes}" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!--Key1 for DesX-->
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Key1 for DesX" HorizontalAlignment="Center"/>
+                    <TextBox Margin="10" Height="40" Text="{Binding Key1ForDesX}" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <!--Key2 for DesX-->
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Key2 for DesX" HorizontalAlignment="Center"/>
+                    <TextBox Margin="10" Height="40" Text="{Binding Key2ForDesX}" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Padding="10" Grid.Row="2">
+            <StackPanel>
+                <Button Content="Generate Keys" HorizontalAlignment="Center" Command="{Binding GenerateKeysCommand}"/>
+            </StackPanel>
+        </Border>
+
     </Grid>
 </Window>
