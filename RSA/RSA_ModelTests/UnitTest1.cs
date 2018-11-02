@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RSA_Model;
 
 namespace RSA_ModelTests
 {
@@ -9,6 +12,14 @@ namespace RSA_ModelTests
         [TestMethod]
         public void TestMethod1()
         {
+            Keys keys = new Keys();
+            keys.GenerateKeys();
+            Signature sig = new Signature();
+            List<BigInteger> blindedMessage = sig.BlindMessage("test", keys.PublicKey);
+            List<BigInteger> blindedSignature = sig.CreateSignature(blindedMessage, keys.PrivateKey);
+
+            Console.WriteLine(sig.VerifySignature("test", blindedSignature, keys.PublicKey));
+
         }
     }
 }
