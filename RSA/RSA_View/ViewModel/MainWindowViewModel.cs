@@ -124,9 +124,9 @@ namespace RSA_View.ViewModel
         private void CheckValidation()
         {
             if (_signature.VerifySignature(MessageToSign, _blindedSign, _keys.PublicKey))
-                MessageBox.Show("Verified!", "Verification Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Correct!", "Verification Success", MessageBoxButton.OK, MessageBoxImage.Information);
             else
-                MessageBox.Show("Not Verified!", "Verification Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Incorrect!", "Verification Fail", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void Blind()
