@@ -6,7 +6,7 @@ using System.Windows.Data;
 
 namespace RSA_View.Converters
 {
-    [ValueConversion(typeof(List<BigInteger>), typeof(string))]
+    [ValueConversion(typeof(List<RSABigInteger>), typeof(string))]
     public class BigIntegerListToStringConverter : IValueConverter
     {
         public static BigIntegerListToStringConverter Instance = new BigIntegerListToStringConverter();
@@ -15,7 +15,7 @@ namespace RSA_View.Converters
             string list = String.Empty;
             if (value != null)
             {
-                foreach (BigInteger bigInteger in (List<BigInteger>)value)
+                foreach (RSABigInteger bigInteger in (List<RSABigInteger>)value)
                 {
                     list += bigInteger.ToString() + ',';
                 }
@@ -30,11 +30,11 @@ namespace RSA_View.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            List<BigInteger> list = new List<BigInteger>();
+            List<RSABigInteger> list = new List<RSABigInteger>();
             var lines = ((string)value).Split(',');
             foreach (string line in lines)
             {
-                list.Add(BigInteger.Parse(line));
+                list.Add(new RSABigInteger(line,10));
             }
 
             return list;

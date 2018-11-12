@@ -12,6 +12,7 @@ namespace DESX.ViewModel
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        #region Private Variables
 
         private Encryptor _encryptor;
         private Decryptor _decryptor;
@@ -21,9 +22,18 @@ namespace DESX.ViewModel
         private string _keyForDes;
         private string _key1ForDesX;
         private string _key2ForDesX;
+
+        #endregion
+
+        #region Commands
+
         public ICommand EncryptCommand { get; }
         public ICommand DecryptCommand { get; }
         public ICommand GenerateKeysCommand { get; }
+
+        #endregion
+
+        #region Property
 
         public string TextToEncrypt
         {
@@ -85,6 +95,10 @@ namespace DESX.ViewModel
             }
         }
 
+        #endregion
+
+        #region Constructor
+
         public MainWindowViewModel()
         {
 
@@ -99,6 +113,10 @@ namespace DESX.ViewModel
             TextToEncrypt = String.Empty;
 
         }
+
+        #endregion
+
+        #region Methods
 
         private void GenerateKeys()
         {
@@ -131,5 +149,8 @@ namespace DESX.ViewModel
             }
 
         }
+
+        #endregion
+
     }
 }
