@@ -15,8 +15,8 @@ namespace RSA_ModelTests
             Keys keys = new Keys();
             keys.GenerateKeys();
             Signature sig = new Signature();
-            List<BigInteger> blindedMessage = sig.BlindMessage("test", keys.PublicKey);
-            List<BigInteger> blindedSignature = sig.CreateSignature(blindedMessage, keys.PrivateKey);
+            List<RSABigInteger> blindedMessage = sig.BlindMessage("test", keys.PublicKey);
+            List<RSABigInteger> blindedSignature = sig.CreateSignature(blindedMessage, keys.PrivateKey);
 
             Console.WriteLine(sig.VerifySignature("test", blindedSignature, keys.PublicKey));
 

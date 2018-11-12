@@ -23,8 +23,8 @@ namespace RSA_View.ViewModel
         private string _messageToSign;
         private Keys _keys = new Keys();
         private Signature _signature = new Signature();
-        private List<BigInteger> _blindedMessage;
-        private List<BigInteger> _blindedSign;
+        private List<RSABigInteger> _blindedMessage;
+        private List<RSABigInteger> _blindedSign;
         private Window _owner;
 
         #endregion
@@ -40,7 +40,7 @@ namespace RSA_View.ViewModel
 
         #region Properties
 
-        public List<BigInteger> BlindedSign
+        public List<RSABigInteger> BlindedSign
         {
             get => _blindedSign;
             set

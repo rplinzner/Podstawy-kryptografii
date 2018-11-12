@@ -7,24 +7,24 @@ namespace RSA_Model
 {
     public class Signature
     {
-        public BigInteger BlindingFactor { get; private set; }
+        public RSABigInteger BlindingFactor { get; private set; }
         private string _hashMessage;
 
-        public List<BigInteger> CreateSignature(List<BigInteger> blindedMessage, (BigInteger, BigInteger) privateKey)
+        public List<RSABigInteger> CreateSignature(List<RSABigInteger> blindedMessage, (RSABigInteger, RSABigInteger) privateKey)
         {
-            List<BigInteger> sign = new List<BigInteger>();
-            foreach (BigInteger bigInteger in blindedMessage)
+            List<RSABigInteger> sign = new List<RSABigInteger>();
+            foreach (RSABigInteger bigInteger in blindedMessage)
             {
-                sign.Add(BigInteger.ModPow(bigInteger, privateKey.Item2, privateKey.Item1));
+                sign.Add(bigInteger.modPow(privateKey.Item2, privateKey.Item1));
             }
 
             return sign;
         }
 
-        public bool VerifySignature(string message, List<BigInteger> blindedSign, (BigInteger, BigInteger) publicKey)
+        public bool VerifySignature(string message, List<RSABigInteger> blindedSign, (RSABigInteger, RSABigInteger) publicKey)
         {
-            List<BigInteger> sign = new List<BigInteger>();
-            foreach (BigInteger bigInteger in blindedSign)
+            List<RSABigInteger> sign = new List<RSABigInteger>();
+            foreach (RSABigInteger bigInteger in blindedSign)
             {
                 sign.Add(bigInteger * Keys.ModularInverse(BlindingFactor, publicKey.Item1) % publicKey.Item1);
             }
@@ -32,7 +32,7 @@ namespace RSA_Model
             int i = 0;
             foreach (char c in _hashMessage)
             {
-                if (BigInteger.ModPow(sign[i], publicKey.Item2, publicKey.Item1) != c)
+                if (sign[i].modPow(publicKey.Item2, publicKey.Item1) != (RSABigInteger)(int)c)
                     return false;
                 i++;
 
@@ -41,12 +41,12 @@ namespace RSA_Model
             return true;
         }
 
-        public List<BigInteger> BlindMessage(string message, (BigInteger, BigInteger) publicKey)
+        public List<RSABigInteger> BlindMessage(string message, (RSABigInteger, RSABigInteger) publicKey)
         {
             do
             {
                 BlindingFactor = Keys.GenerateNumber(publicKey.Item1);
-            } while (BigInteger.GreatestCommonDivisor(publicKey.Item1, BlindingFactor) != 1);
+            } while (publicKey.Item1.gcd(BlindingFactor) != 1);
             byte[] bytes = Encoding.UTF8.GetBytes(message);
             SHA256Managed hashstring = new SHA256Managed();
             byte[] hash = hashstring.ComputeHash(bytes);
@@ -55,11 +55,11 @@ namespace RSA_Model
             {
                 _hashMessage += $"{x:x2}";
             }
-            List<BigInteger> blindedMessage = new List<BigInteger>();
+            List<RSABigInteger> blindedMessage = new List<RSABigInteger>();
             foreach (char c in _hashMessage)
             {
 
-                blindedMessage.Add(c * BigInteger.ModPow(BlindingFactor, publicKey.Item2, publicKey.Item1));
+                blindedMessage.Add((RSABigInteger)(int)c * BlindingFactor.modPow(publicKey.Item2, publicKey.Item1));
             }
             return blindedMessage;
         }
