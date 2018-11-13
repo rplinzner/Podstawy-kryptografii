@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Knapsack_Model;
 
@@ -37,6 +38,12 @@ namespace Knapsack_ModelTests
             Console.Out.WriteLine("Decoding");
             var decrypted = enc.Decrypt(encryptedMessage);
             Console.Out.WriteLine(decrypted);
+
+            var rng = new RNGCryptoServiceProvider();
+            var bytes = new byte[128];
+            rng.GetBytes(bytes);
+            var num = BitConverter.ToString(bytes, 0);
+            Console.Out.WriteLine(num);
 
 
 
