@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Numerics;
 
 namespace RSA_Model
 {
@@ -145,6 +143,7 @@ namespace RSA_Model
         public void GenerateKeys()
         {
             List<RSABigInteger> keys = GenerateTwoNumbers();
+
             RSABigInteger euler = Euler(keys[0], keys[1]);
             _nNumber = Module(keys[0], keys[1]);
 
@@ -153,6 +152,7 @@ namespace RSA_Model
             }
 
             _dNumber = ModularInverse(_eNumber, euler);
+
             PublicKey = (_nNumber, _eNumber);
             PrivateKey = (_nNumber, _dNumber);
         }    

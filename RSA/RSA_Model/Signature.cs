@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Numerics;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace RSA_Model
@@ -8,7 +6,7 @@ namespace RSA_Model
     public class Signature
     {
         public RSABigInteger BlindingFactor { get; private set; }
-        private string _hashMessage;
+        private string _message;
 
         public List<RSABigInteger> CreateSignature(List<RSABigInteger> blindedMessage, (RSABigInteger, RSABigInteger) privateKey)
         {
@@ -30,7 +28,7 @@ namespace RSA_Model
             }
 
             int i = 0;
-            foreach (char c in _hashMessage)
+            foreach (char c in _message)
             {
                 if (sign[i].modPow(publicKey.Item2, publicKey.Item1) != (RSABigInteger)(int)c)
                     return false;
@@ -47,20 +45,22 @@ namespace RSA_Model
             {
                 BlindingFactor = Keys.GenerateNumber(publicKey.Item1);
             } while (publicKey.Item1.gcd(BlindingFactor) != 1);
+            
             byte[] bytes = Encoding.UTF8.GetBytes(message);
-            SHA256Managed hashstring = new SHA256Managed();
-            byte[] hash = hashstring.ComputeHash(bytes);
-            _hashMessage = string.Empty;
-            foreach (byte x in hash)
+           
+            _message = string.Empty;
+            foreach (byte x in bytes)
             {
-                _hashMessage += $"{x:x2}";
+                _message += x.ToString();
             }
+           
             List<RSABigInteger> blindedMessage = new List<RSABigInteger>();
-            foreach (char c in _hashMessage)
+            foreach (char c in _message)
             {
 
                 blindedMessage.Add((RSABigInteger)(int)c * BlindingFactor.modPow(publicKey.Item2, publicKey.Item1));
             }
+
             return blindedMessage;
         }
     }
