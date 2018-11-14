@@ -46,11 +46,11 @@ namespace RSA_Model
         }
 
         //check the primality of a number
-        public bool IsProbablyPrime(RSABigInteger value, int checkTries = 10)
+        public bool IsProbablyPrime(RSABigInteger value, int checkTries = 20)
         {
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             if (checkTries <= 0)
-                checkTries = 10;
+                checkTries = 20;
 
             RSABigInteger d = value - 1;
             int s = 0;
