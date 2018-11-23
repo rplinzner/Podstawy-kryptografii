@@ -3,8 +3,8 @@
 
 public class RSABigInteger
 {
-    // maximum length of the RSABigInteger in uint (4 bytes)
-    // change this to suit the required level of precision.
+    // maximum length of the RSABigInteger in uint
+    // change this to suit the required level of precision
 
     private const int maxLength = 130;
 
@@ -12,10 +12,7 @@ public class RSABigInteger
     private uint[] data = null;             // stores bytes from the Big Integer
     public int dataLength;                 // number of actual chars used
 
-
-    //***********************************************************************
     // Constructor (Default value for RSABigInteger is 0
-    //***********************************************************************
 
     public RSABigInteger()
     {
@@ -23,10 +20,7 @@ public class RSABigInteger
         dataLength = 1;
     }
 
-
-    //***********************************************************************
     // Constructor (Default value provided by long)
-    //***********************************************************************
 
     public RSABigInteger(long value)
     {
@@ -59,10 +53,7 @@ public class RSABigInteger
             dataLength = 1;
     }
 
-
-    //***********************************************************************
     // Constructor (Default value provided by ulong)
-    //***********************************************************************
 
     public RSABigInteger(ulong value)
     {
@@ -86,11 +77,7 @@ public class RSABigInteger
             dataLength = 1;
     }
 
-
-
-    //***********************************************************************
     // Constructor (Default value provided by RSABigInteger)
-    //***********************************************************************
 
     public RSABigInteger(RSABigInteger bi)
     {
@@ -103,30 +90,10 @@ public class RSABigInteger
     }
 
 
-    //***********************************************************************
+   
     // Constructor (Default value provided by a string of digits of the
     //              specified base)
-    //
-    // Example (base 10)
-    // -----------------
-    // To initialize "a" with the default value of 1234 in base 10
-    //      RSABigInteger a = new RSABigInteger("1234", 10)
-    //
-    // To initialize "a" with the default value of -1234
-    //      RSABigInteger a = new RSABigInteger("-1234", 10)
-    //
-    // Example (base 16)
-    // -----------------
-    // To initialize "a" with the default value of 0x1D4F in base 16
-    //      RSABigInteger a = new RSABigInteger("1D4F", 16)
-    //
-    // To initialize "a" with the default value of -0x1D4F
-    //      RSABigInteger a = new RSABigInteger("-1D4F", 16)
-    //
-    // Note that string values are specified in the <sign><magnitude>
-    // format.
-    //
-    //***********************************************************************
+   
 
     public RSABigInteger(string value, int radix)
     {
@@ -182,23 +149,7 @@ public class RSABigInteger
         dataLength = result.dataLength;
     }
 
-
-    //***********************************************************************
     // Constructor (Default value provided by an array of bytes)
-    //
-    // The lowest index of the input byte array (i.e [0]) should contain the
-    // most significant byte of the number, and the highest index should
-    // contain the least significant byte.
-    //
-    // E.g.
-    // To initialize "a" with the default value of 0x1D4F in base 16
-    //      byte[] temp = { 0x1D, 0x4F };
-    //      RSABigInteger a = new RSABigInteger(temp)
-    //
-    // Note that this method of initialization does not allow the
-    // sign to be specified.
-    //
-    //***********************************************************************
 
     public RSABigInteger(byte[] inData)
     {
@@ -231,12 +182,9 @@ public class RSABigInteger
         while (dataLength > 1 && data[dataLength - 1] == 0)
             dataLength--;
 
-        //Console.WriteLine("Len = " + dataLength);
     }
 
-    //***********************************************************************
     // Constructor (Default value provided by an array of unsigned integers)
-    //*********************************************************************
 
     public RSABigInteger(uint[] inData)
     {
@@ -253,14 +201,11 @@ public class RSABigInteger
         while (dataLength > 1 && data[dataLength - 1] == 0)
             dataLength--;
 
-        //Console.WriteLine("Len = " + dataLength);
     }
 
 
-    //***********************************************************************
     // Overloading of the typecast operator.
     // For RSABigInteger bi = 10;
-    //***********************************************************************
 
     public static implicit operator RSABigInteger(long value)
     {
@@ -283,9 +228,7 @@ public class RSABigInteger
     }
 
 
-    //***********************************************************************
     // Overloading of addition operator
-    //***********************************************************************
 
     public static RSABigInteger operator +(RSABigInteger bi1, RSABigInteger bi2)
     {
@@ -322,10 +265,7 @@ public class RSABigInteger
         return result;
     }
 
-
-    //***********************************************************************
     // Overloading of the unary ++ operator
-    //***********************************************************************
 
     public static RSABigInteger operator ++(RSABigInteger bi1)
     {
@@ -367,10 +307,7 @@ public class RSABigInteger
         return result;
     }
 
-
-    //***********************************************************************
     // Overloading of subtraction operator
-    //***********************************************************************
 
     public static RSABigInteger operator -(RSABigInteger bi1, RSABigInteger bi2)
     {
@@ -416,10 +353,7 @@ public class RSABigInteger
         return result;
     }
 
-
-    //***********************************************************************
     // Overloading of the unary -- operator
-    //***********************************************************************
 
     public static RSABigInteger operator --(RSABigInteger bi1)
     {
@@ -464,9 +398,7 @@ public class RSABigInteger
     }
 
 
-    //***********************************************************************
     // Overloading of multiplication operator
-    //***********************************************************************
 
     public static RSABigInteger operator *(RSABigInteger bi1, RSABigInteger bi2)
     {
@@ -559,10 +491,7 @@ public class RSABigInteger
     }
 
 
-
-    //***********************************************************************
     // Overloading of unary << operators
-    //***********************************************************************
 
     public static RSABigInteger operator <<(RSABigInteger bi1, int shiftVal)
     {
@@ -613,10 +542,7 @@ public class RSABigInteger
         return bufLen;
     }
 
-
-    //***********************************************************************
     // Overloading of unary >> operators
-    //***********************************************************************
 
     public static RSABigInteger operator >>(RSABigInteger bi1, int shiftVal)
     {
@@ -685,10 +611,7 @@ public class RSABigInteger
         return bufLen;
     }
 
-
-    //***********************************************************************
     // Overloading of the NEGATE operator (2's complement)
-    //***********************************************************************
 
     public static RSABigInteger operator -(RSABigInteger bi1)
     {
@@ -729,10 +652,7 @@ public class RSABigInteger
         return result;
     }
 
-
-    //***********************************************************************
     // Overloading of equality operator
-    //***********************************************************************
 
     public static bool operator ==(RSABigInteger bi1, RSABigInteger bi2)
     {
@@ -768,9 +688,7 @@ public class RSABigInteger
     }
 
 
-    //***********************************************************************
     // Overloading of inequality operator
-    //***********************************************************************
 
     public static bool operator >(RSABigInteger bi1, RSABigInteger bi2)
     {
@@ -836,12 +754,8 @@ public class RSABigInteger
     }
 
 
-    //***********************************************************************
     // Private function that supports the division of two numbers with
     // a divisor that has more than 1 digit.
-    //
-    // Algorithm taken from [1]
-    //***********************************************************************
 
     private static void multiByteDivide(RSABigInteger bi1, RSABigInteger bi2,
                                         RSABigInteger outQuotient, RSABigInteger outRemainder)
@@ -860,21 +774,11 @@ public class RSABigInteger
             shift++; mask >>= 1;
         }
 
-        //Console.WriteLine("shift = {0}", shift);
-        //Console.WriteLine("Before bi1 Len = {0}, bi2 Len = {1}", bi1.dataLength, bi2.dataLength);
 
         for (int i = 0; i < bi1.dataLength; i++)
             remainder[i] = bi1.data[i];
         shiftLeft(remainder, shift);
         bi2 = bi2 << shift;
-
-        /*
-        Console.WriteLine("bi1 Len = {0}, bi2 Len = {1}", bi1.dataLength, bi2.dataLength);
-        Console.WriteLine("dividend = " + bi1 + "\ndivisor = " + bi2);
-        for(int q = remainderLen - 1; q >= 0; q--)
-                Console.Write("{0:x2}", remainder[q]);
-        Console.WriteLine();
-        */
 
         int j = remainderLen - bi2.dataLength;
         int pos = remainderLen - 1;
@@ -926,19 +830,9 @@ public class RSABigInteger
             }
             RSABigInteger yy = kk - ss;
 
-            //Console.WriteLine("ss = " + ss);
-            //Console.WriteLine("kk = " + kk);
-            //Console.WriteLine("yy = " + yy);
 
             for (int h = 0; h < divisorLen; h++)
                 remainder[pos - h] = yy.data[bi2.dataLength - h];
-
-            /*
-            Console.WriteLine("dividend = ");
-            for(int q = remainderLen - 1; q >= 0; q--)
-                    Console.Write("{0:x2}", remainder[q]);
-            Console.WriteLine("\n************ q_hat = {0:X}\n", q_hat);
-            */
 
             result[resultPos++] = (uint)q_hat;
 
@@ -967,11 +861,8 @@ public class RSABigInteger
             outRemainder.data[y] = 0;
     }
 
-
-    //***********************************************************************
     // Private function that supports the division of two numbers with
     // a divisor that has only 1 digit.
-    //***********************************************************************
 
     private static void singleByteDivide(RSABigInteger bi1, RSABigInteger bi2,
                                          RSABigInteger outQuotient, RSABigInteger outRemainder)
@@ -990,9 +881,6 @@ public class RSABigInteger
         ulong divisor = (ulong)bi2.data[0];
         int pos = outRemainder.dataLength - 1;
         ulong dividend = (ulong)outRemainder.data[pos];
-
-        //Console.WriteLine("divisor = " + divisor + " dividend = " + dividend);
-        //Console.WriteLine("divisor = " + bi2 + "\ndividend = " + bi1);
 
         if (dividend >= divisor)
         {
@@ -1033,10 +921,7 @@ public class RSABigInteger
             outRemainder.dataLength--;
     }
 
-
-    //***********************************************************************
     // Overloading of division operator
-    //***********************************************************************
 
     public static RSABigInteger operator /(RSABigInteger bi1, RSABigInteger bi2)
     {
@@ -1076,10 +961,7 @@ public class RSABigInteger
         }
     }
 
-
-    //***********************************************************************
     // Overloading of modulus operator
-    //***********************************************************************
 
     public static RSABigInteger operator %(RSABigInteger bi1, RSABigInteger bi2)
     {
@@ -1116,26 +998,15 @@ public class RSABigInteger
         }
     }
 
-    //***********************************************************************
     // Returns a string representing the RSABigInteger in base 10.
-    //***********************************************************************
-
     public override string ToString()
     {
         return ToString(10);
     }
 
 
-    //***********************************************************************
     // Returns a string representing the RSABigInteger in sign-and-magnitude
     // format in the specified radix.
-    //
-    // Example
-    // -------
-    // If the value of RSABigInteger is -255 in base 10, then
-    // ToString(16) returns "-FF"
-    //
-    //***********************************************************************
 
     public string ToString(int radix)
     {
@@ -1184,10 +1055,7 @@ public class RSABigInteger
         return result;
     }
 
-    //***********************************************************************
     // Modulo Exponentiation
-    //***********************************************************************
-
     public RSABigInteger modPow(RSABigInteger exp, RSABigInteger n)
     {
         if ((exp.data[maxLength - 1] & 0x80000000) != 0)
@@ -1223,7 +1091,6 @@ public class RSABigInteger
         for (int pos = 0; pos < exp.dataLength; pos++)
         {
             uint mask = 0x01;
-            //Console.WriteLine("pos = " + pos);
 
             for (int index = 0; index < 32; index++)
             {
@@ -1253,13 +1120,9 @@ public class RSABigInteger
         return resultNum;
     }
 
-    //***********************************************************************
     // Fast calculation of modular reduction using Barrett's reduction.
     // Requires x < b^(2k), where b is the base.  In this case, base is
     // 2^32 (uint).
-    //
-    // Reference [4]
-    //***********************************************************************
 
     private RSABigInteger BarrettReduction(RSABigInteger x, RSABigInteger n, RSABigInteger constant)
     {
@@ -1269,7 +1132,6 @@ public class RSABigInteger
 
         RSABigInteger q1 = new RSABigInteger();
 
-        // q1 = x / b^(k-1)
         for (int i = kMinusOne, j = 0; i < x.dataLength; i++, j++)
             q1.data[j] = x.data[i];
         q1.dataLength = x.dataLength - kMinusOne;
@@ -1280,25 +1142,17 @@ public class RSABigInteger
         RSABigInteger q2 = q1 * constant;
         RSABigInteger q3 = new RSABigInteger();
 
-        // q3 = q2 / b^(k+1)
         for (int i = kPlusOne, j = 0; i < q2.dataLength; i++, j++)
             q3.data[j] = q2.data[i];
         q3.dataLength = q2.dataLength - kPlusOne;
         if (q3.dataLength <= 0)
             q3.dataLength = 1;
 
-
-        // r1 = x mod b^(k+1)
-        // i.e. keep the lowest (k+1) words
         RSABigInteger r1 = new RSABigInteger();
         int lengthToCopy = (x.dataLength > kPlusOne) ? kPlusOne : x.dataLength;
         for (int i = 0; i < lengthToCopy; i++)
             r1.data[i] = x.data[i];
         r1.dataLength = lengthToCopy;
-
-
-        // r2 = (q3 * n) mod b^(k+1)
-        // partial multiplication of q3 and n
 
         RSABigInteger r2 = new RSABigInteger();
         for (int i = 0; i < q3.dataLength; i++)
@@ -1339,10 +1193,7 @@ public class RSABigInteger
         return r1;
     }
 
-
-    //***********************************************************************
     // Returns gcd(this, bi)
-    //***********************************************************************
 
     public RSABigInteger gcd(RSABigInteger bi)
     {
@@ -1371,16 +1222,7 @@ public class RSABigInteger
         return g;
     }
 
-
-    //***********************************************************************
     // Returns the position of the most significant bit in the RSABigInteger.
-    //
-    // Eg.  The result is 0, if the value of RSABigInteger is 0...0000 0000
-    //      The result is 1, if the value of RSABigInteger is 0...0000 0001
-    //      The result is 2, if the value of RSABigInteger is 0...0000 0010
-    //      The result is 2, if the value of RSABigInteger is 0...0000 0011
-    //
-    //***********************************************************************
 
     public int bitCount()
     {
@@ -1401,9 +1243,6 @@ public class RSABigInteger
         return bits;
     }
 
-    // Returns the value of the RSABigInteger as a byte array.  The lowest
-    // index contains the MSB.
-
 
     public byte[] getBytes()
     {
@@ -1414,8 +1253,6 @@ public class RSABigInteger
             numBytes++;
 
         byte[] result = new byte[numBytes];
-
-        //Console.WriteLine(result.Length);
 
         int pos = 0;
         uint tempVal, val = data[dataLength - 1];
