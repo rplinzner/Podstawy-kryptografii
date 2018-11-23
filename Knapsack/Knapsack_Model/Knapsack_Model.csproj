@@ -42,8 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BigNumber.cs" />
     <Compile Include="DefaultValues.cs" />
     <Compile Include="Encryption.cs" />
+    <Compile Include="Generator.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="ICrypto.cs" />
     <Compile Include="IntExtensionMethods.cs" />
