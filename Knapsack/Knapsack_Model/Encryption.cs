@@ -84,14 +84,14 @@ namespace Knapsack_Model
         //TODO Add summary + comments
         private int[] DecodeInts(string message)
         {
-            int multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)mod900
+            //int multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)mod900
             int[] charsEncryptedInt = StringHelper.DecodeString(message); //convert numbers from string to int array
             int[] decodedEncryptedIntChars = new int[charsEncryptedInt.Length];
 
             for (int i = 0; i < charsEncryptedInt.Length; i++)
             {
-                int intDecode = (charsEncryptedInt[i] * multiplyFactor) % Modulus;
-                decodedEncryptedIntChars[i] = intDecode;
+                //int intDecode = (charsEncryptedInt[i] * multiplyFactor) % Modulus;
+                //decodedEncryptedIntChars[i] = intDecode;
             }
             return decodedEncryptedIntChars;
         }

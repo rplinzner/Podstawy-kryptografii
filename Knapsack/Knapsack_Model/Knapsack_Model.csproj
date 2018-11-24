@@ -48,7 +48,7 @@
     <Compile Include="Generator.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="ICrypto.cs" />
-    <Compile Include="IntExtensionMethods.cs" />
+    <Compile Include="BigNumberExtensionMethods.cs" />
     <Compile Include="Permutation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicKeyGenerator.cs" />

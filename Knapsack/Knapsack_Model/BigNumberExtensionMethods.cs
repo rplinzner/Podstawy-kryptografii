@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace Knapsack_Model
 {
-    public static class IntExtensionMethods
+    public static class BigNumberExtensionMethods
     {
         /// <summary>
-        /// Extension Method for Integer. Calculates Modular Inversion. Need to be used as BigInteger usage is forbidden
+        /// Extension Method for BigNumber. Calculates Modular Inversion.
         /// </summary>
         /// <param name="a">integer</param>
         /// <param name="m">modulus</param>
         /// <returns>Modular multiplicative inverse</returns>
         /// <exception cref="DivideByZeroException">This exception is thrown when there is no Modular Inversion</exception>
-        public static int ModInverse(this int a, int m)
+        public static BigNumber ModInverse(this BigNumber a, BigNumber m)
         {
             if (m == 1) return 0;
-            int m0 = m;
-            (int x, int y) = (1, 0);
+            BigNumber m0 = m;
+            (BigNumber x, BigNumber y) = (1, 0);
 
             while (a > 1)
             {
-                int q = a / m;
+                BigNumber q = a / m;
                 (a, m) = (m, a % m);
                 (x, y) = (y, x - q * y);
             }
