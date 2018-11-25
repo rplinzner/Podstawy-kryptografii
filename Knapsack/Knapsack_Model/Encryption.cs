@@ -79,7 +79,7 @@ namespace Knapsack_Model
         private List<BigNumber> DecodeBigNumbers(string message)
         {
             BigNumber multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)modModulus
-            List<BigNumber> charsEncryptedBN = StringHelper.DecodeString(message); //convert numbers from string to BN array
+            List<BigNumber> charsEncryptedBN = StringHelper.DecodeStringToBNList(message); //convert numbers from string to BN array
             List<BigNumber> decodedEncryptedBNChars = new List<BigNumber>(charsEncryptedBN.Count);
 
             for (int i = 0; i < charsEncryptedBN.Count; i++)

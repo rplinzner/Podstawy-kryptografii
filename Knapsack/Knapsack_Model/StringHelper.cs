@@ -11,7 +11,7 @@ namespace Knapsack_Model
         /// </summary>
         /// <param name="str">string with numerical values separated by dots</param>
         /// <returns>big number array</returns>
-        public static List<BigNumber> DecodeString(string str)
+        public static List<BigNumber> DecodeStringToBNList(string str)
         {
             string[] charsEncrypted = str.Split('.');
             List<BigNumber> charDecodedBigNumbers = new List<BigNumber>(charsEncrypted.Length);
@@ -40,6 +40,7 @@ namespace Knapsack_Model
 
             return str.ToString();
         }
+
 
     }
 }
