@@ -7,28 +7,27 @@ namespace Knapsack_Model
     public static class StringHelper
     {
         /// <summary>
-        /// creates int array from string
+        /// creates big number list from string
         /// </summary>
         /// <param name="str">string with numerical values separated by dots</param>
-        /// <returns>int array</returns>
+        /// <returns>big number array</returns>
         public static List<BigNumber> DecodeString(string str)
         {
             string[] charsEncrypted = str.Split('.');
-//            int[] charDecodedInt = new int[charsEncrypted.Length];
             List<BigNumber> charDecodedBigNumbers = new List<BigNumber>(charsEncrypted.Length);
             for (int i = 0; i < charsEncrypted.Length; i++)
             {
-                //charDecodedInt[i] = int.Parse(charsEncrypted[i]);
+                //parse from string, hex
                 charDecodedBigNumbers.Add(new BigNumber(charsEncrypted[i],16));
             }
 
             return charDecodedBigNumbers;
         }
         /// <summary>
-        /// creates string from int array
+        /// creates string from BigNumber List
         /// </summary>
-        /// <param name="intTable">int array</param>
-        /// <returns>string with int values separated by dots</returns>
+        /// <param name="list">BigNumber list</param>
+        /// <returns>string with BN values separated by dots</returns>
         public static string ConvertBigNumberListToString(List<BigNumber> list)
         {
             StringBuilder str = new StringBuilder();

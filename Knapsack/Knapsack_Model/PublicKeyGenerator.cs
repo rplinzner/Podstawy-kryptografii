@@ -37,18 +37,13 @@ namespace Knapsack_Model
         /// Generates initial public key, without additional permutation
         /// </summary>
         /// <returns>Weak public key</returns>
-#if DEBUG
-        public List<BigNumber> GeneratePublicKey()
-#else
         private List<BigNumber> GeneratePublicKey()
-#endif
         {
             var publicKey = new List<BigNumber>(_privateKey.Count);
 
             for (int i = 0; i < _privateKey.Count; i++)
             {
-                //publicKey[i] = (_privateKey[i] * _multiplier) % _modulus;
-                publicKey.Add(new BigNumber((_privateKey[i] * _multiplier) % _modulus));
+               publicKey.Add(new BigNumber((_privateKey[i] * _multiplier) % _modulus));
             }
             return publicKey;
         }

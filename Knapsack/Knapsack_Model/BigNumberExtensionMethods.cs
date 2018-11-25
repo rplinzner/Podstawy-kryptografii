@@ -11,7 +11,7 @@ namespace Knapsack_Model
         /// <summary>
         /// Extension Method for BigNumber. Calculates Modular Inversion.
         /// </summary>
-        /// <param name="a">integer</param>
+        /// <param name="a">value</param>
         /// <param name="m">modulus</param>
         /// <returns>Modular multiplicative inverse</returns>
         /// <exception cref="DivideByZeroException">This exception is thrown when there is no Modular Inversion</exception>

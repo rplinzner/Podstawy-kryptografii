@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Knapsack_Model
 {
@@ -14,7 +12,7 @@ namespace Knapsack_Model
         public List<BigNumber> PrivateKey { private get; set; }
         public BigNumber Multiplier { private get; set; }
         public BigNumber Modulus { private get; set; }
-#endregion
+        #endregion
         #region constructor
         /// <summary>
         /// Default constructor
@@ -32,35 +30,32 @@ namespace Knapsack_Model
         /// Method that encodes message using public key. Used by anyone.
         /// </summary>
         /// <param name="message">Message to encrypt</param>
+        /// <exception cref="NullReferenceException"> Thrown when no public key was set</exception>
         /// <returns></returns>
         public string Encrypt(string message)
         {
 
-            if(PublicKey==null) throw new NullReferenceException("Public key needs to be set for this operation");
+            if (PublicKey == null) throw new NullReferenceException("Public key needs to be set for this operation");
             var charTab = message.ToCharArray();
-            //int[] encodedChars = new int[charTab.Length];
             List<BigNumber> encodedChars = new List<BigNumber>(charTab.Length);
             for (int i = 0; i < charTab.Length; i++)
             {
-                encodedChars.Add(GetCodedChar(charTab[i])); 
+                encodedChars.Add(GetCodedChar(charTab[i]));
             }
             return StringHelper.ConvertBigNumberListToString(encodedChars);
         }
         public string Decrypt(string message)
         {
             #region Check if properties are present
-            if(Multiplier == 0) throw new NullReferenceException("Multiplier needs to be set for this operation");
-            if(Modulus == 0) throw new NullReferenceException("Modulus needs to be set for this operation");
-            if(PrivateKey == null) throw new NullReferenceException("Private Key needs to be set for this operation");
-#endregion
+            if (Multiplier == 0) throw new NullReferenceException("Multiplier needs to be set for this operation");
+            if (Modulus == 0) throw new NullReferenceException("Modulus needs to be set for this operation");
+            if (PrivateKey == null) throw new NullReferenceException("Private Key needs to be set for this operation");
+            #endregion
 
             List<BigNumber> decodedBN = DecodeBigNumbers(message);
-            /*List privateKeyCopy = new int[PrivateKey.Length];
-            Array.Copy(PrivateKey, privateKeyCopy, PrivateKey.Length);
-            Array.Reverse(privateKeyCopy);*/
             List<BigNumber> privateKeyCopy = new List<BigNumber>(PrivateKey);
             privateKeyCopy.Reverse();
-            string decodedMessage ="";
+            string decodedMessage = "";
             foreach (var t in decodedBN)
             {
                 BigNumber rest = t;
@@ -74,8 +69,6 @@ namespace Knapsack_Model
                     }
                     else charBitArray[j] = false;
                 }
-                //BitArray permutedCharBitArray = Knapsack_Model.Permutation.PermuteBitArray(PermutationTable, charBitArray);
-                //var SingleCharInByte = ConvertToByte(permutedCharBitArray);
                 var singleCharInByte = ConvertToByte(charBitArray);
                 decodedMessage += Encoding.UTF8.GetString(singleCharInByte);
             }
@@ -85,15 +78,12 @@ namespace Knapsack_Model
         //TODO Add summary + comments
         private List<BigNumber> DecodeBigNumbers(string message)
         {
-            BigNumber multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)mod900
+            BigNumber multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)modModulus
             List<BigNumber> charsEncryptedBN = StringHelper.DecodeString(message); //convert numbers from string to BN array
-            //int[] decodedEncryptedIntChars = new int[charsEncryptedBN.Count];
             List<BigNumber> decodedEncryptedBNChars = new List<BigNumber>(charsEncryptedBN.Count);
 
             for (int i = 0; i < charsEncryptedBN.Count; i++)
             {
-                /*BigNumber BNDecode = (charsEncryptedBN[i] * multiplyFactor) % Modulus;
-                decodedEncryptedIntChars[i] = BNDecode.IntValue();*/
                 BigNumber BNDecode = new BigNumber((charsEncryptedBN[i] * multiplyFactor) % Modulus);
                 decodedEncryptedBNChars.Add(BNDecode);
             }
@@ -112,12 +102,9 @@ namespace Knapsack_Model
         private BigNumber GetCodedChar(char c)
         {
             BigNumber temp = new BigNumber(0);
-            char[] tempChar = {c};
+            char[] tempChar = { c };
             byte[] charByte = System.Text.Encoding.UTF8.GetBytes(tempChar);
             BitArray charBitArray = new BitArray(charByte);
-            /*int[] reversedPublicKey = new int[PublicKey.Length];
-            Array.Copy(PublicKey, reversedPublicKey, PublicKey.Length);
-            Array.Reverse(reversedPublicKey);*/
             List<BigNumber> reversedPublicKey = new List<BigNumber>(PublicKey);
             reversedPublicKey.Reverse();
             for (int i = 0; i < PublicKey.Count; i++)
@@ -126,8 +113,8 @@ namespace Knapsack_Model
             }
             return temp;
         }
-         
-#endregion
-        
+
+        #endregion
+
     }
 }

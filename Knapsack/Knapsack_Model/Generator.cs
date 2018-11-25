@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace Knapsack_Model
@@ -8,13 +9,15 @@ namespace Knapsack_Model
     {
         private static int _singleNumberBitLength = 1024;
         private static int _keyLength = 8;
-
+        /// <summary>
+        /// Private key Generator for given length
+        /// </summary>
+        /// <returns>BigNumber List key</returns>
         public static List<BigNumber> PrivateKey()
         {
             List<BigNumber> key = new List<BigNumber>(8);
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] firstNumber = new byte[_singleNumberBitLength / 8];
-            Console.Out.WriteLine("starting");
             rng.GetBytes(firstNumber);
             key.Add(new BigNumber(firstNumber));
             BigNumber currentSum = key[0];
@@ -26,13 +29,23 @@ namespace Knapsack_Model
             }
             return key;
         }
-
+        /// <summary>
+        /// Generates modulus, where it should be a number greater than the sum of
+        /// all the numbers in the superincreasing sequence.
+        /// </summary>
+        /// <param name="key">SuperIncreasing sequence key</param>
+        /// <returns>BigNumber Modulus</returns>
         public static BigNumber Modulus(List<BigNumber> key)
         {
             BigNumber temp = GenerateRandomNumberInRange(SumSupersequence(key) + 1, 2 * SumSupersequence(key));
             return temp;
         }
-
+        /// <summary>
+        /// Generates multiplier where should have no factors in common with the modulus (is co-prime).
+        /// Also should be greater than Modulus/2 and lower then Modulus
+        /// </summary>
+        /// <param name="modulus">BigNumber modulus</param>
+        /// <returns>BigNumber multiplier</returns>
         public static BigNumber Multiplier(BigNumber modulus)
         {
             BigNumber multiplier = GenerateRandomNumberInRange((modulus / 2) + 1, modulus - 1);
@@ -62,7 +75,8 @@ namespace Knapsack_Model
         }
 
         /// <summary>
-        /// generates BigNumber value in given range
+        /// generates BigNumber value in given range. If bit length is too small, it adds one bit every 100 000 cycles
+        /// to avoid not having enough bits to have big enough number
         /// </summary>
         /// <param name="a1">lower value in range INCLUDED in range</param>
         /// <param name="a2">higher value in range INCLUDED in range</param>
@@ -88,13 +102,18 @@ namespace Knapsack_Model
             Console.Out.WriteLine(_singleNumberBitLength);
             return generatedRandom;
         }
-
+        /// <summary>
+        /// Sums given supersequence
+        /// </summary>
+        /// <param name="supersequence"></param>
+        /// <returns></returns>
         public static BigNumber SumSupersequence(List<BigNumber> supersequence)
         {
             BigNumber temp = new BigNumber(0);
             foreach (var bigNumber in supersequence)
             {
                 temp += bigNumber;
+                
             }
 
             return temp;
