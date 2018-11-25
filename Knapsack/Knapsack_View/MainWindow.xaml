@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:Knapsack_View"
         xmlns:converters="clr-namespace:Knapsack_View.Converters"
         mc:Ignorable="d"
+        MaxHeight="700"
+        MinHeight="700"
         Title="MainWindow" Height="700" Width="1000">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -36,7 +38,13 @@
         </Border>
         <Border Padding="10" Grid.Column="1" BorderThickness="0 0 2 0" BorderBrush="Black">
             <StackPanel>
-
+                <TextBlock Margin="0 5 0 10" Text="Data Encryption" FontWeight="Bold" FontSize="15" TextAlignment="Center"/>
+                <TextBox  Text="{Binding TextToEncrypt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          TextWrapping="Wrap" Height="250" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"  />
+                <Button Command="{Binding EncryptButton}" IsEnabled="{Binding CanEncrypt}" Content="Encrypt Text" Margin="20 10 20 10" />
+                <TextBox  Text="{Binding EncryptedText, Mode=TwoWay}"
+                          TextWrapping="Wrap" Height="250" VerticalScrollBarVisibility="Auto" IsReadOnly="True"  />
+                <Button Command="{Binding SaveEncryptedButton}" Content="Save to text file" Margin="20 10 20 10" />
             </StackPanel>
         </Border>
         <Border Padding="10" Grid.Column="2" >

@@ -11,6 +11,7 @@ namespace Knapsack_View.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null) return "";
+            if ( (BigNumber)value == 0) return "";
             return ((BigNumber) value).ToHexString();
         }
 
