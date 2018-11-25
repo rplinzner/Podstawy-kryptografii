@@ -13,10 +13,9 @@ namespace Knapsack_Model
     public class PublicKeyGenerator
     {
         #region fields
-        private readonly int[] _privateKey;
-        private readonly int _modulus;
-        private readonly int _multiplier;
-        private readonly byte[] _permutation;
+        private readonly List<BigNumber> _privateKey;
+        private readonly BigNumber _modulus;
+        private readonly BigNumber _multiplier;
 #endregion
         #region constructor
         /// <summary>
@@ -26,12 +25,11 @@ namespace Knapsack_Model
         /// <param name="modulus">Modulus</param>
         /// <param name="multiplier">Multiplier</param>
         /// <param name="permutation">PermutationTable used to permute initially generated key</param>
-        public PublicKeyGenerator(int[] privateKey, int modulus, int multiplier, byte[] permutation)
+        public PublicKeyGenerator(List<BigNumber> privateKey, BigNumber modulus, BigNumber multiplier)
         {
             _privateKey = privateKey;
             _modulus = modulus;
             _multiplier = multiplier;
-            _permutation = permutation;
         }
 #endregion
 
@@ -40,16 +38,17 @@ namespace Knapsack_Model
         /// </summary>
         /// <returns>Weak public key</returns>
 #if DEBUG
-        public int[] GeneratePublicKey()
+        public List<BigNumber> GeneratePublicKey()
 #else
-        private int[] GeneratePublicKey()
+        private List<BigNumber> GeneratePublicKey()
 #endif
         {
-            var publicKey = new int[8];
+            var publicKey = new List<BigNumber>(_privateKey.Count);
 
-            for (int i = 0; i < _privateKey.Length; i++)
+            for (int i = 0; i < _privateKey.Count; i++)
             {
-                publicKey[i] = (_privateKey[i] * _multiplier) % _modulus;
+                //publicKey[i] = (_privateKey[i] * _multiplier) % _modulus;
+                publicKey.Add(new BigNumber((_privateKey[i] * _multiplier) % _modulus));
             }
             return publicKey;
         }
@@ -57,9 +56,8 @@ namespace Knapsack_Model
         /// Generates final form of public key. Includes permutation
         /// </summary>
         /// <returns>Public Key after permutation</returns>
-        public int[] GetPublicKey()
+        public List<BigNumber> GetPublicKey()
         {
-            var publicKey = Permutation.Permute(_permutation, GeneratePublicKey());
             return GeneratePublicKey();
         }
 
