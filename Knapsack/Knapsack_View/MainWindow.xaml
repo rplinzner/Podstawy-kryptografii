@@ -49,7 +49,14 @@
         </Border>
         <Border Padding="10" Grid.Column="2" >
             <StackPanel>
-
+                <TextBlock Margin="0 5 0 10" Text="Data decryption" FontWeight="Bold" FontSize="15" TextAlignment="Center"/>
+                <Button Command="{Binding TransferButton}"  Content="Transfer Text From Encrypted" Margin="20 10 20 10" />
+                <Button Command="{Binding LoadFromFileButton}"  Content="Open from text file" Margin="20 10 20 10" />
+                <TextBox  Text="{Binding TextToDecryption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          TextWrapping="Wrap" Height="240" VerticalScrollBarVisibility="Auto" />
+                <Button Command="{Binding DecryptButton}" IsEnabled="{Binding CanDecrypt}" Content="Decrypt message" Margin="20 10 20 10" />
+                <TextBox  Text="{Binding DecryptedText, Mode=TwoWay}"
+                          TextWrapping="Wrap" Height="240" VerticalScrollBarVisibility="Auto" IsReadOnly="True" />
             </StackPanel>
         </Border>
 

@@ -23,6 +23,13 @@ namespace Knapsack_View.ViewModel
         private bool _canEncrypt;
         private string _textToEncrypt;
         private string _encryptedText;
+        private string _textToDecryption;
+        private bool _canDecrypt;
+        private string _decryptedText;
+        private SaveFileDialog _sfd;
+        private OpenFileDialog _ofd;
+        
+
         #endregion
 
         #region Commands
@@ -31,6 +38,9 @@ namespace Knapsack_View.ViewModel
         public ICommand SaveAllData { get; }
         public ICommand EncryptButton { get; }
         public ICommand SaveEncryptedButton { get; }
+        public ICommand LoadAllData { get; }
+        public ICommand TransferButton { get; }
+        public ICommand LoadFromFileButton { get; }
 
 
         #endregion
@@ -42,6 +52,7 @@ namespace Knapsack_View.ViewModel
             get => _privateKeyText;
             set
             {
+                
                 _privateKeyText = value;
                 OnPropertyChanged(nameof(PrivateKeyText));
             }
@@ -92,7 +103,7 @@ namespace Knapsack_View.ViewModel
             get => _textToEncrypt;
             set
             {
-                if (value == null)
+                if (string.IsNullOrEmpty(value))
                 {
                     CanEncrypt = false;
                 }
@@ -115,6 +126,38 @@ namespace Knapsack_View.ViewModel
             }
         }
 
+        public string TextToDecryption
+        {
+            get => _textToDecryption;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    CanDecrypt = false;
+                }
+                else
+                {
+                    CanDecrypt = true;
+                }
+                _textToDecryption = value;
+                OnPropertyChanged(nameof(TextToDecryption));
+            }
+        }
+
+        public bool CanDecrypt
+        {
+            get => _canDecrypt;
+            set
+            {
+                _canDecrypt = value;
+                OnPropertyChanged(nameof(CanDecrypt));
+            }
+        }
+
+        public bool DecryptedText
+        {
+            
+        }
         #endregion
 
         #region ctor
@@ -126,6 +169,22 @@ namespace Knapsack_View.ViewModel
             SaveAllData = new RelayCommand(SaveData);
             EncryptButton = new RelayCommand(Encrypt);
             SaveEncryptedButton = new RelayCommand(SaveEncrypted);
+            LoadAllData = new RelayCommand(LoadAllDataFromFiles);
+            TransferButton = new RelayCommand(TransferEncrypted);
+            LoadFromFileButton = new RelayCommand(LoadFromFileEncrypted);
+            _sfd = new SaveFileDialog()
+            {
+                Filter = "Key File (*.key)|*.key",
+                RestoreDirectory = true,
+                AddExtension = true,
+            };
+            _ofd = new OpenFileDialog()
+            {
+                Filter = "Key File (*.key)|*.key",
+                RestoreDirectory = true,
+                Multiselect = false,
+                
+            };
         }
         #endregion
 
@@ -153,20 +212,15 @@ namespace Knapsack_View.ViewModel
 
         private void SaveData()
         {
-            SaveFileDialog sfd = new SaveFileDialog()
-            {
-                Filter = "Key File (*.key)|*.key",
-                RestoreDirectory = true,
-                AddExtension = true,
-            };
+            
             if (PrivateKeyText != null)
             {
-                sfd.FileName = "PrivateKey";
-                sfd.Title = "Choose directory to save the private key:";
+                _sfd.FileName = "PrivateKey";
+                _sfd.Title = "Choose directory to save the private key:";
 
-                if (sfd.ShowDialog() == true)
+                if (_sfd.ShowDialog() == true)
                 {
-                    File.WriteAllText(sfd.FileName, (string)Converters.BigNumberListToStringConverter.Instance.Convert(PrivateKeyText, null, null, null));
+                    File.WriteAllText(_sfd.FileName, (string)Converters.BigNumberListToStringConverter.Instance.Convert(PrivateKeyText, null, null, null));
                 }
             }
             else
@@ -177,12 +231,12 @@ namespace Knapsack_View.ViewModel
 
             if (ModulusText!=0)
             {
-                sfd.FileName = "Modulus";
-                sfd.Title = "Choose directory to save the modulus:";
+                _sfd.FileName = "Modulus";
+                _sfd.Title = "Choose directory to save the modulus:";
 
-                if (sfd.ShowDialog() == true)
+                if (_sfd.ShowDialog() == true)
                 {
-                    File.WriteAllText(sfd.FileName, (string)Converters.BigNumberToStringConverter.Instance.Convert(ModulusText, null, null, null));
+                    File.WriteAllText(_sfd.FileName, (string)Converters.BigNumberToStringConverter.Instance.Convert(ModulusText, null, null, null));
                 }
                 
             }
@@ -194,12 +248,12 @@ namespace Knapsack_View.ViewModel
 
             if (MultiplierText!=0)
             {
-                sfd.FileName = "Multiplier";
-                sfd.Title = "Choose directory to save the multiplier:";
+                _sfd.FileName = "Multiplier";
+                _sfd.Title = "Choose directory to save the multiplier:";
 
-                if (sfd.ShowDialog() == true)
+                if (_sfd.ShowDialog() == true)
                 {
-                    File.WriteAllText(sfd.FileName, (string)Converters.BigNumberToStringConverter.Instance.Convert(MultiplierText, null, null, null));
+                    File.WriteAllText(_sfd.FileName, (string)Converters.BigNumberToStringConverter.Instance.Convert(MultiplierText, null, null, null));
                 }
             }
             else
@@ -210,12 +264,12 @@ namespace Knapsack_View.ViewModel
 
             if (PublicKeyText != null)
             {
-                sfd.FileName = "PublicKey";
-                sfd.Title = "Choose directory to save the public key:";
+                _sfd.FileName = "PublicKey";
+                _sfd.Title = "Choose directory to save the public key:";
 
-                if (sfd.ShowDialog() == true)
+                if (_sfd.ShowDialog() == true)
                 {
-                    File.WriteAllText(sfd.FileName, (string)Converters.BigNumberListToStringConverter.Instance.Convert(PublicKeyText, null, null, null));
+                    File.WriteAllText(_sfd.FileName, (string)Converters.BigNumberListToStringConverter.Instance.Convert(PublicKeyText, null, null, null));
                 }
             }
             else
@@ -251,17 +305,59 @@ namespace Knapsack_View.ViewModel
 
         private void SaveEncrypted()
         {
-            SaveFileDialog sfd = new SaveFileDialog()
-            {
-                Filter = "Text File (*.txt)|*.txt",
-                RestoreDirectory = true,
-                AddExtension = true,
-                FileName = "EncryptedMessage"
-            };
+           
+            _sfd.Filter = "Text File (*.txt)|*.txt";
+            _sfd.FileName = "EncryptedMessage";
 
-            if (sfd.ShowDialog() == true)
+            if (_sfd.ShowDialog() == true)
             {
-                File.WriteAllText(sfd.FileName, EncryptedText );
+                File.WriteAllText(_sfd.FileName, EncryptedText );
+            }
+        }
+
+        private void LoadAllDataFromFiles()
+        {
+            _ofd.FileName = "PrivateKey";
+            string temp;
+            if (_ofd.ShowDialog() == true)
+            {
+                temp = File.ReadAllText(_ofd.FileName);
+                PrivateKeyText = (List<BigNumber>)Converters.BigNumberListToStringConverter.Instance.ConvertBack(temp, null, null, null);
+            }
+            _ofd.FileName = "Modulus";
+            if (_ofd.ShowDialog() == true)
+            {
+                temp = File.ReadAllText(_ofd.FileName);
+                ModulusText = (BigNumber)Converters.BigNumberToStringConverter.Instance.ConvertBack(temp, null, null, null);
+            }
+            _ofd.FileName = "Multiplier";
+            if (_ofd.ShowDialog() == true)
+            {
+                temp = File.ReadAllText(_ofd.FileName);
+                MultiplierText = (BigNumber)Converters.BigNumberToStringConverter.Instance.ConvertBack(temp, null, null, null);
+            }
+
+            _ofd.FileName = "PublicKey";
+            if (_ofd.ShowDialog() == true)
+            {
+                temp = File.ReadAllText(_ofd.FileName);
+                PublicKeyText = (List<BigNumber>)Converters.BigNumberListToStringConverter.Instance.ConvertBack(temp, null, null, null);
+            }
+        }
+
+        private void TransferEncrypted()
+        {
+            TextToDecryption = EncryptedText;
+        }
+
+        private void LoadFromFileEncrypted()
+        {
+            _ofd.Filter = "Text File (*.txt)|*.txt";
+            _ofd.FileName = "EncryptedMessage";
+            
+            if (_ofd.ShowDialog() == true)
+            {
+                TextToDecryption = File.ReadAllText(_ofd.FileName);
             }
         }
         #endregion
