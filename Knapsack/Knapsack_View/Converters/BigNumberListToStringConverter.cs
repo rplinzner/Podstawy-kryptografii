@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
 using System.Windows.Navigation;
 
@@ -27,6 +28,15 @@ namespace Knapsack_View.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (string.IsNullOrEmpty((string) value))
+            {
+                return null;
+            }
+            Regex regex = new Regex("^[0-9A-Fa-f\\.]+$");
+            if (!regex.IsMatch((string) value))
+            {
+                return null;
+            }
             string[] elemEncrypted = ((string)value).Split('.');
             List<BigNumber> charDecodedBigNumbers = new List<BigNumber>(elemEncrypted.Length);
             for (int i = 0; i < elemEncrypted.Length; i++)

@@ -7,7 +7,8 @@ namespace Knapsack_Model
 {
     public static class Generator
     {
-        private static int _singleNumberBitLength = 1024;
+        private readonly static int _singleNumberBitLength = 1024; //static, so we save time on checking too small values
+        private static int _bitLengthProcessing = _singleNumberBitLength;
         private static int _keyLength = 8;
         /// <summary>
         /// Private key Generator for given length
@@ -54,6 +55,7 @@ namespace Knapsack_Model
                 multiplier = GenerateRandomNumberInRange((modulus / 2) + 1, modulus - 1);
             }
 
+            _bitLengthProcessing = _singleNumberBitLength;
             return multiplier;
         }
         /// <summary>
@@ -88,18 +90,18 @@ namespace Knapsack_Model
             int tries = 100000;
             do
             {
-                byte[] temp = new byte[_singleNumberBitLength / 8];
+                byte[] temp = new byte[_bitLengthProcessing / 8];
                 rng.GetBytes(temp);
                 generatedRandom = new BigNumber(temp);
                 tries--;
                 if (tries == 0)
                 {
                     tries = 100000;
-                    _singleNumberBitLength++;
+                    _bitLengthProcessing++;
                 }
             } while (generatedRandom < a1 || generatedRandom > a2);
 
-            Console.Out.WriteLine(_singleNumberBitLength);
+            Console.Out.WriteLine(_bitLengthProcessing);
             return generatedRandom;
         }
         /// <summary>

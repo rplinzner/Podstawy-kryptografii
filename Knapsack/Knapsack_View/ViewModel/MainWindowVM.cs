@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Knapsack_Model;
+using Knapsack_View.ViewModel.Base;
+using Microsoft.Win32;
+using Parago.Windows;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Knapsack_Model;
-using Knapsack_View.ViewModel.Base;
-using Microsoft.Win32;
-using Parago.Windows;
 
 namespace Knapsack_View.ViewModel
 {
@@ -16,8 +16,8 @@ namespace Knapsack_View.ViewModel
         #region fields
 
         private List<BigNumber> _privateKeyText;
-        private BigNumber _modulusText = new BigNumber();
-        private BigNumber _multiplierText = new BigNumber();
+        private BigNumber _modulusText = new BigNumber(0);
+        private BigNumber _multiplierText = new BigNumber(0);
         private List<BigNumber> _publicKeyText;
         private Window _owner;
         private bool _canEncrypt;
@@ -28,7 +28,7 @@ namespace Knapsack_View.ViewModel
         private string _decryptedText;
         private SaveFileDialog _sfd;
         private OpenFileDialog _ofd;
-        
+
 
         #endregion
 
@@ -41,6 +41,7 @@ namespace Knapsack_View.ViewModel
         public ICommand LoadAllData { get; }
         public ICommand TransferButton { get; }
         public ICommand LoadFromFileButton { get; }
+        public ICommand DecryptButton { get; }
 
 
         #endregion
@@ -52,7 +53,7 @@ namespace Knapsack_View.ViewModel
             get => _privateKeyText;
             set
             {
-                
+
                 _privateKeyText = value;
                 OnPropertyChanged(nameof(PrivateKeyText));
             }
@@ -154,9 +155,15 @@ namespace Knapsack_View.ViewModel
             }
         }
 
-        public bool DecryptedText
+        public string DecryptedText
         {
-            
+            get => _decryptedText;
+            set
+            {
+                _decryptedText = value;
+                OnPropertyChanged(nameof(DecryptedText));
+            }
+
         }
         #endregion
 
@@ -172,18 +179,16 @@ namespace Knapsack_View.ViewModel
             LoadAllData = new RelayCommand(LoadAllDataFromFiles);
             TransferButton = new RelayCommand(TransferEncrypted);
             LoadFromFileButton = new RelayCommand(LoadFromFileEncrypted);
+            DecryptButton = new RelayCommand(Decrypt);
             _sfd = new SaveFileDialog()
             {
-                Filter = "Key File (*.key)|*.key",
                 RestoreDirectory = true,
                 AddExtension = true,
             };
             _ofd = new OpenFileDialog()
             {
-                Filter = "Key File (*.key)|*.key",
                 RestoreDirectory = true,
                 Multiselect = false,
-                
             };
         }
         #endregion
@@ -203,8 +208,8 @@ namespace Knapsack_View.ViewModel
             PrivateKeyText = await Task.Run(() => Generator.PrivateKey());
             ModulusText = await Task.Run(() => Generator.Modulus(PrivateKeyText));
             MultiplierText = await Task.Run(() => Generator.Multiplier(ModulusText));
-            PublicKeyGenerator gen = new PublicKeyGenerator(PrivateKeyText,ModulusText,MultiplierText);
-            PublicKeyText = await Task.Run(()=>gen.GetPublicKey());
+            PublicKeyGenerator gen = new PublicKeyGenerator(PrivateKeyText, ModulusText, MultiplierText);
+            PublicKeyText = await Task.Run(() => gen.GetPublicKey());
 
             dialog.Close();
             _owner.IsEnabled = true;
@@ -212,7 +217,7 @@ namespace Knapsack_View.ViewModel
 
         private void SaveData()
         {
-            
+            _sfd.Filter = "Key File (*.key)|*.key";
             if (PrivateKeyText != null)
             {
                 _sfd.FileName = "PrivateKey";
@@ -229,7 +234,7 @@ namespace Knapsack_View.ViewModel
                     MessageBoxImage.Information);
             }
 
-            if (ModulusText!=0)
+            if (ModulusText != 0)
             {
                 _sfd.FileName = "Modulus";
                 _sfd.Title = "Choose directory to save the modulus:";
@@ -238,7 +243,7 @@ namespace Knapsack_View.ViewModel
                 {
                     File.WriteAllText(_sfd.FileName, (string)Converters.BigNumberToStringConverter.Instance.Convert(ModulusText, null, null, null));
                 }
-                
+
             }
             else
             {
@@ -246,7 +251,7 @@ namespace Knapsack_View.ViewModel
                     MessageBoxImage.Information);
             }
 
-            if (MultiplierText!=0)
+            if (MultiplierText != 0)
             {
                 _sfd.FileName = "Multiplier";
                 _sfd.Title = "Choose directory to save the multiplier:";
@@ -299,25 +304,26 @@ namespace Knapsack_View.ViewModel
                 MessageBox.Show(e.Message, "Information", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
-            
+
 
         }
 
         private void SaveEncrypted()
         {
-           
+
             _sfd.Filter = "Text File (*.txt)|*.txt";
             _sfd.FileName = "EncryptedMessage";
 
             if (_sfd.ShowDialog() == true)
             {
-                File.WriteAllText(_sfd.FileName, EncryptedText );
+                File.WriteAllText(_sfd.FileName, EncryptedText);
             }
         }
 
         private void LoadAllDataFromFiles()
         {
             _ofd.FileName = "PrivateKey";
+            _ofd.Filter = "Key File (*.key)|*.key";
             string temp;
             if (_ofd.ShowDialog() == true)
             {
@@ -354,11 +360,30 @@ namespace Knapsack_View.ViewModel
         {
             _ofd.Filter = "Text File (*.txt)|*.txt";
             _ofd.FileName = "EncryptedMessage";
-            
+
             if (_ofd.ShowDialog() == true)
             {
                 TextToDecryption = File.ReadAllText(_ofd.FileName);
             }
+        }
+
+        private void Decrypt()
+        {
+            Encryption enc = new Encryption();
+            enc.PrivateKey = PrivateKeyText;
+            enc.Modulus = ModulusText;
+            enc.Multiplier = MultiplierText;
+            try
+            {
+                DecryptedText = enc.Decrypt(TextToDecryption);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Information", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+            
+
         }
         #endregion
 

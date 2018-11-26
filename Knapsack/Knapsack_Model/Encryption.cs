@@ -75,7 +75,6 @@ namespace Knapsack_Model
             return decodedMessage;
         }
         #region helper methods
-        //TODO Add summary + comments
         private List<BigNumber> DecodeBigNumbers(string message)
         {
             BigNumber multiplyFactor = Multiplier.ModInverse(Modulus); //does multiplier^(-1)modModulus
